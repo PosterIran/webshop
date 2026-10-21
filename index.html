@@ -39,18 +39,18 @@
             background-position: 0 0, 15px 15px;
         }
 
-        /* کاردها و باکس‌ها با سایه بسیار نرم و ملایم */
+        /* کاردها و باکس‌های سبک انیمه / مانگا با سایه ضخیم و حاشیه مشکی */
         .anime-card {
             background: white;
-            border: 2px solid #e5e7eb;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+            border: 3px solid #000;
+            box-shadow: 5px 5px 0px #000;
             border-radius: 20px;
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
         .anime-card:hover:not(.out-of-stock-card) {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+            transform: translate(-3px, -3px);
+            box-shadow: 8px 8px 0px #ff6b8b;
         }
 
         /* هدر فوق‌العاده انیمه‌ای هیرو */
@@ -63,7 +63,7 @@
             margin-right: calc(-50vw + 50%);
             padding-left: 1rem;
             padding-right: 1rem;
-            border-bottom: 2px solid #e5e7eb;
+            border-bottom: 4px solid #000;
         }
 
         /* افکت شکوفه‌های گیلاس (Sakura) در پس‌زمینه */
@@ -90,7 +90,7 @@
         .image-box { transition: transform 0.3s ease; }
         .hidden-section { display: none; }
         
-        /* دکمه انیمه‌ای کاوایی shimmer طلایی/صورتی بدون سایه ضخیم */
+        /* دکمه انیمه‌ای کاوایی shimmer طلایی/صورتی */
         .premium-shimmer-btn {
             position: relative;
             background: linear-gradient(45deg, #ff3b8d, #ff8a00) !important;
@@ -104,8 +104,8 @@
             align-items: center;
             justify-content: center;
             gap: 10px;
-            border: 2px solid #000;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border: 3px solid #000;
+            box-shadow: 4px 4px 0px #000;
             transition: all 0.2s ease;
             cursor: pointer;
             width: 100%;
@@ -113,14 +113,14 @@
         }
 
         .premium-shimmer-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            transform: translate(-2px, -2px);
+            box-shadow: 7px 7px 0px #000;
             background: linear-gradient(45deg, #ff8a00, #ff3b8d) !important;
         }
 
         .premium-shimmer-btn:active {
-            transform: translateY(0);
-            box-shadow: none;
+            transform: translate(2px, 2px);
+            box-shadow: 1px 1px 0px #000;
         }
 
         .premium-shimmer-btn::after {
@@ -169,15 +169,18 @@
             align-items: center !important;
             background-color: rgba(255, 255, 255, 0.92) !important;
             backdrop-filter: blur(12px) !important;
-            border: 2px solid #000 !important;
+            border: 3px solid #000 !important;
             border-radius: 24px !important;
             height: 68px !important;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08) !important;
+            box-shadow: 5px 5px 0px #000 !important;
         }
 
         nav button.active-nav-btn {
-            transform: translateY(-4px) scale(1.05) !important;
+            transform: translateY(-6px) scale(1.08) !important;
             color: #db2777 !important;
+        }
+        nav button.active-nav-btn.assistant-active {
+            color: #8b5cf6 !important;
         }
 
         /* هدر چسبنده */
@@ -186,7 +189,7 @@
             justify-content: space-between !important;
             align-items: center !important;
             background-color: rgba(255, 255, 255, 0.95) !important;
-            border-bottom: 2px solid #e5e7eb !important;
+            border-bottom: 3px solid #000 !important;
         }
 
         summary::-webkit-details-marker { display: none; }
@@ -202,8 +205,8 @@
         #toast {
             transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
             top: 20px;
-            border: 2px solid #000;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            border: 3px solid #000;
+            box-shadow: 4px 4px 0px #000;
         }
         
         .toast-hidden {
@@ -217,6 +220,45 @@
             transform: translate(-50%, 20px) scale(1) !important;
         }
 
+        /* چت با هوش مصنوعی سبک مانگا */
+        .ai-message {
+            max-width: 85%;
+            padding: 12px 16px;
+            border-radius: 18px;
+            line-height: 1.6;
+            font-size: 0.95rem;
+            display: inline-block;
+            border: 2px solid #000;
+        }
+        .ai-message.user {
+            align-self: flex-start;
+            background-color: #fce7f3;
+            color: #831843;
+            box-shadow: 3px 3px 0px #000;
+        }
+        .ai-message.gemini {
+            align-self: flex-end;
+            background-color: #ffffff;
+            color: #1e1b4b;
+            box-shadow: 3px 3px 0px #000;
+        }
+
+        /* نشانگر تایپ انیمه‌ای */
+        .typing-indicator span {
+            width: 8px;
+            height: 8px;
+            background-color: #ec4899;
+            border-radius: 50%;
+            display: inline-block;
+            animation: bounce 1.4s infinite ease-in-out both;
+        }
+        .typing-indicator span:nth-child(1) { animation-delay: -0.32s; }
+        .typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
+        @keyframes bounce {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1.0); }
+        }
+
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
@@ -224,6 +266,33 @@
             animation: spin 1s linear infinite;
         }
 
+        /* فلش شناور سبد خرید */
+        #cartScrollArrow {
+            position: fixed;
+            left: 50%;
+            bottom: 22px;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 50px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: #ec4899;
+            color: #ffffff;
+            border: 3px solid #000;
+            border-radius: 50%;
+            box-shadow: 4px 4px 0px #000;
+            z-index: 9998;
+            font-size: 24px;
+            cursor: pointer;
+            animation: cartArrowBlink 1.1s infinite;
+        }
+
+        @keyframes cartArrowBlink {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(6px); }
+        }
+        
         .badge-anime {
             background-color: #ff3b8d;
             border: 2px solid #000;
@@ -238,317 +307,11 @@
 
     <!-- لایه هشدار قطع اتصال اینترنت پویا -->
     <div id="offlineOverlay" class="fixed inset-0 bg-pink-900/80 backdrop-blur-md z-[99999] hidden flex-col items-center justify-center p-6 text-center">
-        <div class="bg-white p-8 rounded-3xl border-2 border-black shadow-md max-w-sm w-full flex flex-col items-center">
+        <div class="bg-white p-8 rounded-3xl border-4 border-black shadow-[8px_8px_0px_#000] max-w-sm w-full flex flex-col items-center">
             <div class="w-20 h-20 bg-pink-100 text-pink-600 rounded-full border-2 border-black flex items-center justify-center text-4xl mb-6 animate-bounce">
                 <i class="fas fa-wifi"></i>
             </div>
-            <h1 class="text-xl font-black text-pink-600 mb-3">🚫 شبکه قطع شده است!</h1>
-            <p class="text-sm text-gray-700 leading-relaxed mb-6">لطفاً اتصال اینترنت خود را بررسی کنید تا بتوانید ادامه پوسترهای آموزشی را مشاهده کنید.</p>
-            <button onclick="checkConnectionManually()" class="w-full bg-pink-500 hover:bg-pink-600 text-white font-black py-3.5 rounded-2xl border-2 border-black shadow-sm transition-all flex items-center justify-center gap-2">
-                <i class="fas fa-sync-alt"></i>
-                تلاش مجدد
-            </button>
-        </div>
-    </div>
-
-    <!-- نوار هشدار فیلترشکن -->
-    <div id="vpnBanner" class="hidden bg-amber-400 text-amber-950 px-4 py-2 text-center text-xs font-black border-b-2 border-black flex items-center justify-center gap-2 relative z-[60] pt-24 -mb-20">
-        <i class="fas fa-shield-alt text-base animate-pulse"></i>
-        <span>توجه: برای ارسال مستقیم سفارش در پیام‌رسان‌ها (واتس‌اپ/ایتا) مطمئن شوید فیلترشکن شما روشن است.</span>
-    </div>
-
-    <div class="container mx-auto">
-
-    <!-- اعلان پاپ‌آپ سراسری -->
-    <div id="toast" class="fixed top-0 left-1/2 -translate-x-1/2 z-[1000] px-6 py-3 rounded-2xl flex flex-col items-center gap-1 bg-white text-pink-900 toast-hidden">
-        <div class="flex items-center gap-3">
-            <div id="toastIconContainer" class="w-7 h-7 bg-pink-500 rounded-full border border-black flex items-center justify-center text-white shadow-sm">
-                <i id="toastIcon" class="fas fa-check text-xs"></i>
-            </div>
-            <span id="toastText" class="font-black text-xs">آیتم اضافه شد ✨</span>
-        </div>
-        <span id="toastGroup" class="text-[10px] text-pink-600 font-bold"></span>
-    </div>
-
-    <!-- هدر سایت -->
-    <header class="fixed w-full right-0 left-0 top-0 z-50 bg-white/95 backdrop-blur-md px-4 py-2.5">
-        <div class="container mx-auto flex justify-between items-center">
-            <div class="flex items-center gap-2 cursor-pointer" onclick="showScreen('home')">
-                <img src="https://PosterIran.github.io/pixel/icons/logo.png" alt="Logo" class="logo-img" width="42" height="42">
-                <div class="flex flex-col">
-                    <span class="text-xl font-black text-pink-600 tracking-wider">پوستر ایران 🌸</span>
-                    <span class="text-[9px] font-bold text-purple-600 -mt-1">دنیای جذاب آموزش</span>
-                </div>
-            </div>
-            
-            <div class="flex items-center gap-3">
-                <!-- ویجت زمان و تاریخ شمسی -->
-                <div class="flex flex-col items-center justify-center bg-pink-100 px-3 py-1 rounded-xl border-2 border-black shadow-sm">
-                    <span id="headerDayTime" class="text-[10px] font-bold text-pink-600 leading-none">--- --:--:--</span>
-                    <span id="headerDate" class="text-xs font-black text-purple-900 tracking-wider mt-1 leading-none">----/--/--</span>
-                </div>
-
-                <button onclick="showScreen('cart')" class="relative bg-pink-500 text-white p-2.5 rounded-2xl border-2 border-black shadow-sm hover:bg-pink-600 transition flex items-center justify-center w-11 h-11">
-                    <i class="fas fa-shopping-cart text-base"></i>
-                    <span class="cartBadge badge-anime absolute -top-2 -right-2 text-white text-[10px] w-5 h-5 flex items-center justify-center rounded-full hidden">0</span>
-                </button>
-            </div>
-        </div>
-    </header>
-
-    <main class="pt-24">
-        <!-- صفحه اصلی -->
-        <section id="homeScreen">
-            <div id="resumeOrder" class="hidden bg-amber-300 border-2 border-black p-3 rounded-2xl mb-6 flex items-center justify-between shadow-sm">
-                <div class="flex items-center gap-2">
-                    <span class="text-xl animate-bounce">⚡</span>
-                    <div class="flex flex-col">
-                        <span class="text-xs font-black text-amber-950">شما یک سبد خرید ناتمام داری!</span>
-                        <span id="resumeOrderDetails" class="text-[10px] font-bold text-amber-900"></span>
-                    </div>
-                </div>
-                <button onclick="showScreen('cart')" class="bg-pink-600 hover:bg-pink-700 text-white px-3 py-1.5 rounded-xl border-2 border-black font-black text-xs shadow-sm active:translate-x-0.5 active:translate-y-0.5 transition-all">ادامه خرید ➔</button>
-            </div>
-            
-            <div class="hero-gradient text-white py-16 px-6 text-center rounded-3xl my-2">
-                <div class="inline-block bg-pink-400/30 border-2 border-white px-4 py-1 rounded-full text-xs font-black mb-4 backdrop-blur-sm">
-                    ✨ دنیایی پر از رنگ و یادگیری!
-                </div>
-                <h1 class="text-3xl md:text-5xl font-black mb-6 leading-relaxed">
-                    یادگیری را به یک <span class="text-yellow-300 underline decoration-wavy decoration-pink-500">ماجراجویی جذاب</span> تبدیل کن! ⚡
-                </h1>
-                <p class="text-base md:text-lg mb-8 text-pink-100 leading-relaxed max-w-2xl mx-auto font-bold">
-                    پوسترهای آموزشی فوق‌العاده با طراحی ویژه برای یادگیری عمیق‌تر و کلاس‌های درس پرانرژی!
-                </p>
-
-                <div class="flex flex-col gap-4 justify-center items-center max-w-md mx-auto">
-                    <button onclick="showScreen('gallery')" class="premium-shimmer-btn">
-                        <i class="fas fa-magic"></i>
-                        ورود به گالری 🌸
-                    </button>
-                    
-                    <button onclick="scrollToBenefitsSection()" class="w-full border-2 border-white bg-white/20 backdrop-blur-md px-8 py-3.5 rounded-2xl text-lg font-black hover:bg-white/30 transition text-center cursor-pointer shadow-sm">
-                        چرا پوسترهای ما؟ 🤔
-                    </button>
-                </div>
-            </div>
-            
-            <!-- بخش مزایا -->
-            <div id="benefits" class="py-16 container mx-auto px-4">
-                <div class="text-center mb-12">
-                    <h2 class="text-2xl md:text-3xl font-black text-purple-950 mb-3">ویژگی‌های شگفت‌انگیز ✨</h2>
-                    <p class="text-pink-600 font-bold">چرا همه معلم‌ها و دانش‌آموزها عاشقش میشن؟</p>
-                </div>
-                <div class="grid md:grid-cols-3 gap-8">
-                    <div class="anime-card p-6 text-center">
-                        <div class="bg-pink-100 border-2 border-black w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 text-pink-600 text-2xl shadow-sm">
-                            ⚡
-                        </div>
-                        <h3 class="text-lg font-black mb-2 text-purple-950">یادگیری فوق‌العاده سریع</h3>
-                        <p class="text-gray-600 text-sm font-bold leading-relaxed">طراحی‌های بصری جذاب که حافظه تصویری دانش‌آموزان را چند برابر فعال‌تر می‌کنه.</p>
-                    </div>
-                    <div class="anime-card p-6 text-center">
-                        <div class="bg-purple-100 border-2 border-black w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 text-purple-600 text-2xl shadow-sm">
-                            🎯
-                        </div>
-                        <h3 class="text-lg font-black mb-2 text-purple-950">کاملاً منطبق با کتب درسی</h3>
-                        <p class="text-gray-600 text-sm font-bold leading-relaxed">استانداردسازی دقیق بر اساس آخرین تغییرات کتاب‌های آموزش و پرورش.</p>
-                    </div>
-                    <div class="anime-card p-6 text-center">
-                        <div class="bg-cyan-100 border-2 border-black w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 text-cyan-600 text-2xl shadow-sm">
-                            🛡️
-                        </div>
-                        <h3 class="text-lg font-black mb-2 text-purple-950">کیفیت چاپ عالی و UV</h3>
-                        <p class="text-gray-600 text-sm font-bold leading-relaxed">مقاوم در برابر نور و رطوبت برای استفاده طولانی‌مدت در کلاس.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- بخش سوالات متداول -->
-            <section id="faq" class="py-12 container mx-auto px-4 max-w-3xl">
-                <h2 class="text-2xl font-black text-center mb-8 text-purple-950">سوالات متداول</h2>
-                <div class="space-y-4">
-                    <details class="anime-card p-5 group cursor-pointer">
-                        <summary class="font-black flex justify-between items-center text-pink-700">
-                            آیا ارسال به سراسر کشور دارید؟
-                            <span class="group-open:rotate-180 transition">🔻</span>
-                        </summary>
-                        <p class="mt-3 text-sm font-bold text-gray-600 leading-relaxed border-t border-gray-200 pt-3">
-                            بله! به تمامی استان‌ها و شهرهای ایران از طریق باربری، تیپاکس و چاپار ارسال سریع داریم.
-                        </p>
-                    </details>
-                    <details class="anime-card p-5 group cursor-pointer">
-                        <summary class="font-black flex justify-between items-center text-pink-700">
-                            سفارش رو چطور بفرستم؟
-                            <span class="group-open:rotate-180 transition">🔻</span>
-                        </summary>
-                        <p class="mt-3 text-sm font-bold text-gray-600 leading-relaxed border-t border-gray-200 pt-3">
-                            کافیه پوسترهای مورد نظرتون رو انتخاب کنید. موقع ثبت سفارش متن لیست سفارش خودکار کپی می‌شه و می‌تونید اون رو به هر شماره دلخواهی ارسال کنید!
-                        </p>
-                    </details>
-                </div>
-            </section>
-        </section>
-
-        <!-- صفحه گالری محصولات -->
-        <section id="galleryScreen" class="hidden-section container mx-auto px-4 py-2">
-            <div class="mb-4 text-center">
-                <h2 class="text-2xl font-black text-purple-950">گالری پوسترهای آموزشی 🎨</h2>
-                <p class="text-xs font-bold text-pink-600 mt-1">سایز و دسته مورد نظرت رو انتخاب کن!</p>
-            </div>
-
-            <div class="sticky top-16 z-40 bg-white/90 backdrop-blur-md py-3 mb-6 rounded-2xl border-2 border-black shadow-sm px-4">
-                <div class="max-w-md mx-auto">
-                    <label class="block text-xs font-black text-pink-600 mb-1 flex items-center gap-1">
-                        <i class="fas fa-filter"></i> انتخاب دسته‌بندی:
-                    </label>
-                    <div class="relative bg-pink-100 rounded-xl border-2 border-black p-1">
-                        <select id="groupSelect" onchange="loadImages(true)" class="w-full py-2 px-3 font-black text-purple-950 bg-transparent outline-none cursor-pointer text-xs">
-                            <option value="1">🌸 سایز ۲۹×۲۱ (دوروچاپ)</option>
-                            <option value="2">🌸 سایز ۴۲×۳۰ (یکروچاپ)</option>
-                            <option value="4">🌸 سایز ۷۰×۵۰ (یکروچاپ)</option>
-                            <option value="5">🌸 سایز ۷۰×۵۰ (یووی‌دار)</option>
-                            <option value="6">🌸 سایر محصولات و فلش‌کارت‌ها</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <div id="imagesContainer" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"></div>
-        </section>
-
-        <!-- صفحه سبد خرید -->
-        <section id="cartScreen" class="hidden-section container mx-auto px-4 py-2 max-w-3xl">
-            <div class="anime-card p-5 md:p-8">
-                <div class="flex items-center justify-between mb-6 border-b-2 border-black pb-4">
-                    <h2 class="text-xl font-black text-purple-950">🛒 سبد خرید و ثبت سفارش</h2>
-                    <span id="cartTotalItems" class="text-xs font-black bg-pink-100 border border-black px-3 py-1 rounded-full text-pink-700"></span>
-                </div>
-
-                <div id="cartList" class="space-y-6 mb-6"></div>
-
-                <div id="cartCategorySummary" class="mb-6 bg-pink-100/70 border-2 border-black p-4 rounded-2xl hidden shadow-sm">
-                    <h3 class="font-black text-xs text-purple-950 mb-3 flex items-center gap-1.5 border-b border-pink-300 pb-2">
-                        <i class="fas fa-list-check text-pink-600"></i> خلاصه کلی سفارش به تفکیک دسته‌بندی:
-                    </h3>
-                    <div id="categorySummaryList" class="space-y-2 text-xs font-bold"></div>
-                </div>
-
-                <div class="space-y-3 bg-purple-50 border-2 border-black p-4 rounded-2xl mb-6">
-                    <h4 class="font-black text-purple-950 text-xs">📝 مشخصات تحویل‌گیرنده:</h4>
-                    <input type="text" id="customerName" oninput="saveCustomerData()" placeholder="نام و نام خانوادگی *" class="w-full p-3 rounded-xl border-2 border-black outline-none font-bold text-xs bg-white">
-                    <input type="tel" id="customerPhone" oninput="saveCustomerData()" placeholder="شماره همراه شما *" class="w-full p-3 rounded-xl border-2 border-black outline-none font-bold text-xs bg-white">
-                    <textarea id="customerAddress" oninput="saveCustomerData()" placeholder="آدرس دقیق ارسال *" rows="2" class="w-full p-3 rounded-xl border-2 border-black outline-none font-bold text-xs bg-white"></textarea>
-                </div>
-
-                <div class="p-4 bg-pink-50 border-2 border-black rounded-2xl">
-                    <div class="mb-4 bg-white p-3 rounded-xl border-2 border-black">
-                        <label class="block font-black text-purple-950 text-xs mb-1">📱 شماره مقصد / گیرنده سفارش (اجباری) *:</label>
-                        <input type="tel" id="targetPhone" oninput="saveCustomerData()" placeholder="مثلاً: 09123456789" class="w-full p-3 rounded-xl border-2 border-black outline-none font-bold text-xs bg-pink-50 text-left dir-ltr">
-                        <span class="text-[10px] text-pink-600 font-bold block mt-1">وارد کردن شماره مقصد جهت ارسال در پیام‌رسان‌ها الزامی است.</span>
-                    </div>
-
-                    <p class="text-pink-900 text-xs font-black mb-3 text-center">
-                        📋 هنگام کلیک، متن سفارش کپی شده و سپس جهت ارسال هدایت می‌شوید:
-                    </p>
-
-                    <div id="cartSubmitButtons" class="grid grid-cols-1 md:grid-cols-3 gap-3">
-                        <button onclick="submitOrder('copy')" 
-                            class="flex flex-col items-center justify-center bg-purple-600 text-white py-3 rounded-xl border-2 border-black shadow-sm hover:bg-purple-700 active:translate-x-0.5 active:translate-y-0.5 transition-all font-black text-xs">
-                            <span class="text-lg mb-1">📋</span>
-                            <span>فقط کپی متن سفارش</span>
-                        </button>
-
-                        <button onclick="submitOrder('whatsapp')" 
-                            class="flex flex-col items-center justify-center bg-emerald-500 text-white py-3 rounded-xl border-2 border-black shadow-sm hover:bg-emerald-600 active:translate-x-0.5 active:translate-y-0.5 transition-all font-black text-xs">
-                            <span class="text-lg mb-1">💬</span>
-                            <span>کپی و ارسال واتس‌آپ</span>
-                        </button>
-
-                        <button onclick="submitOrder('eitaa')" 
-                            class="flex flex-col items-center justify-center bg-orange-500 text-white py-3 rounded-xl border-2 border-black shadow-sm hover:bg-orange-600 active:translate-x-0.5 active:translate-y-0.5 transition-all font-black text-xs">
-                            <span class="text-lg mb-1">🟠</span>
-                            <span>کپی و ارسال ایتا</span>
-                        </button>
-                    </div>
-
-                    <button onclick="clearCart()" class="w-full mt-4 text-red-600 text-xs font-black hover:underline text-center block">
-                        🗑️ انصراف و پاک کردن کامل سبد
-                    </button>
-                </div>
-            </div>
-        </section>
-
-        <!-- صفحه درباره ما -->
-        <section id="aboutScreen" class="hidden-section container mx-auto px-4 py-4 max-w-3xl">
-            <div class="anime-card p-6">
-                <h2 class="text-2xl font-black text-purple-950 mb-4">درباره پوستر ایران 🌸</h2>
-                <p class="text-gray-700 font-bold text-xs leading-6 mb-4 text-justify">
-                    انتشارات پوستر ایران با سال‌ها تجربه در تولید محصولات آموزشی بصری، متعهد به ارائه پوسترهای باکیفیت، جذاب و استاندارد برای مدارس و معلمان سراسر کشور است. هدف ما تبدیل فرایند یادگیری به تجربه‌ای لذت‌بخش و ملموس برای تمام دانش‌آموزان است.
-                </p>
-                <div class="space-y-2 text-xs font-bold text-gray-600 border-t-2 border-black pt-4">
-                    <p><i class="fas fa-map-marker-alt text-pink-600"></i> تهران، خیابان ۱۵ خرداد، بازار آهنگران، کوچه مسجد جامع، پاساژ کاغذ و تحریر، پلاک ۷۴</p>
-                    <p>📞 تلفن: <a href="tel:02155611875" class="text-pink-600 underline">۰۲۱۵۵۶۱۱۸۷۵</a> | پشتیبانی: <a href="tel:09010195885" class="text-pink-600 underline">۰۹۰۱۰۱۹۵۸۸۵</a></p>
-                </div>
-            </div>
-        </section>
-        
-        <!-- صفحه تاریخچه سفارشات -->
-        <section id="historyScreen" class="hidden-section container mx-auto px-4 py-4 max-w-3xl">
-            <div class="anime-card p-6">
-                <div class="flex items-center justify-between mb-4 pb-2 border-b-2 border-black">
-                    <h2 class="text-xl font-black text-purple-950 flex items-center gap-2">
-                        📜 تاریخچه سفارش‌های شما
-                    </h2>
-                    <button onclick="clearAllHistory()" id="clearHistoryBtn" class="bg-red-500 hover:bg-red-600 text-white text-[10px] font-black px-3 py-1.5 rounded-xl border-2 border-black shadow-sm transition active:translate-x-0.5 active:translate-y-0.5 hidden flex items-center gap-1">
-                        <i class="fas fa-trash-alt"></i> پاک‌سازی کامل
-                    </button>
-                </div>
-                <div id="historyList" class="space-y-3">
-                    <p class="text-gray-400 text-center py-8 text-xs font-bold">هنوز هیچ سفارشی ثبت نکرده‌اید!</p>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <!-- منوی پایینی چسبنده -->
-    <div class="fixed bottom-3 left-3 right-3 z-[100] max-w-md mx-auto">
-        <nav class="bg-white/90 backdrop-blur-md border-2 border-black shadow-sm rounded-2xl flex justify-around items-center py-1.5 px-1">
-            <button onclick="showScreen('home')" id="nav-home" class="flex flex-col items-center gap-0.5 text-pink-600 flex-1">
-                <i class="fas fa-home text-lg"></i>
-                <span class="text-[9px] font-black">خانه</span>
-            </button>
-            <button onclick="showScreen('gallery')" id="nav-gallery" class="flex flex-col items-center gap-0.5 text-gray-500 flex-1">
-                <i class="fas fa-images text-lg"></i>
-                <span class="text-[9px] font-black">گالری</span>
-            </button>
-            <button onclick="showScreen('cart')" id="nav-cart" class="flex flex-col items-center gap-0.5 text-gray-500 flex-1 relative">
-                <div class="relative">
-                    <i class="fas fa-shopping-cart text-lg"></i>
-                    <span class="cartBadge badge-anime absolute -top-1.5 -right-2 text-white text-[8px] w-4 h-4 flex items-center justify-center rounded-full hidden">0</span>
-                </div>
-                <span class="text-[9px] font-black">سبد خرید</span>
-            </button>
-            <button onclick="showScreen('history')" id="nav-history" class="flex flex-col items-center gap-0.5 text-gray-500 flex-1">
-                <i class="fas fa-history text-lg"></i>
-                <span class="text-[9px] font-black">سفارشات</span>
-            </button>
-            <button onclick="showScreen('about')" id="nav-about" class="flex flex-col items-center gap-0.5 text-gray-500 flex-1">
-                <i class="fas fa-info-circle text-lg"></i>
-                <span class="text-[9px] font-black">درباره ما</span>
-            </button>
-        </nav>
-    </div>
-
-    <!-- مودال‌های نمایش عکس -->
-    <div id="imageModal" class="fixed inset-0 z-[200] hidden bg-black/80 flex items-center justify-center p-4 backdrop-blur-md" onclick="closeModal()">
-        <span class="absolute top-5 right-5 text-white text-4xl cursor-pointer font-bold z-[210]">&times;</span>
-        <div id="modalSpinner" class="absolute inset-0 flex items-center justify-center z-10">
-            <div class="w-12 h-12 border-4 border-pink-200 border-t-pink-600 rounded-full animate-spin-custom"></div>
-        </div>
-        <img id="modalImage" class="max-w-full max-h-[85vh] rounded-2xl border-2 border-white shadow-lg object-contain opacity-0 scale-95 transition-all duration-300 z-20" src="" alt="بزرگنمایی" onclick="event.stopPropagation()">
-    </div>
-            <h1 class="text-xl font-black text-pink-600 mb-3">🚫 شبکه قطع شده است!</h1>
+            <h1 class="text-xl font-black text-pink-600 mb-3">🚫 شبکه قطع شده است! (Disconnect)</h1>
             <p class="text-sm text-gray-700 leading-relaxed mb-6">لطفاً اتصال اینترنت خود را بررسی کنید تا بتوانید ادامه پوسترهای آموزشی را مشاهده کنید.</p>
             <button onclick="checkConnectionManually()" class="w-full bg-pink-500 hover:bg-pink-600 text-white font-black py-3.5 rounded-2xl border-2 border-black shadow-[4px_4px_0px_#000] transition-all flex items-center justify-center gap-2">
                 <i class="fas fa-sync-alt"></i>
@@ -557,12 +320,6 @@
         </div>
     </div>
 
-    <!-- نوار هشدار فیلترشکن -->
-    <div id="vpnBanner" class="hidden bg-amber-400 text-amber-950 px-4 py-2 text-center text-xs font-black border-b-2 border-black flex items-center justify-center gap-2 relative z-[60] pt-24 -mb-20">
-        <i class="fas fa-shield-alt text-base animate-pulse"></i>
-        <span>توجه: برای ارسال مستقیم سفارش در پیام‌رسان‌ها (واتس‌اپ/ایتا) مطمئن شوید فیلترشکن شما روشن است.</span>
-    </div>
-
     <div class="container mx-auto">
 
     <!-- اعلان پاپ‌آپ سراسری -->
@@ -576,7 +333,7 @@
         <span id="toastGroup" class="text-[10px] text-pink-600 font-bold"></span>
     </div>
 
-    <!-- هدر سایت -->
+    <!-- هدر سایت انیمه‌ای -->
     <header class="fixed w-full right-0 left-0 top-0 z-50 bg-white/95 backdrop-blur-md px-4 py-2.5">
         <div class="container mx-auto flex justify-between items-center">
             <div class="flex items-center gap-2 cursor-pointer" onclick="showScreen('home')">
@@ -588,7 +345,7 @@
             </div>
             
             <div class="flex items-center gap-3">
-                <!-- ویجت زمان و تاریخ شمسی -->
+                <!-- ویجت زمان و تاریخ شمسی کاوایی -->
                 <div class="flex flex-col items-center justify-center bg-pink-100 px-3 py-1 rounded-xl border-2 border-black shadow-[2px_2px_0px_#000]">
                     <span id="headerDayTime" class="text-[10px] font-bold text-pink-600 leading-none">--- --:--:--</span>
                     <span id="headerDate" class="text-xs font-black text-purple-900 tracking-wider mt-1 leading-none">----/--/--</span>
@@ -606,14 +363,8 @@
         <!-- صفحه اصلی -->
         <section id="homeScreen">
             <div id="resumeOrder" class="hidden bg-amber-300 border-2 border-black p-3 rounded-2xl mb-6 flex items-center justify-between shadow-[4px_4px_0px_#000]">
-                <div class="flex items-center gap-2">
-                    <span class="text-xl animate-bounce">⚡</span>
-                    <div class="flex flex-col">
-                        <span class="text-xs font-black text-amber-950">شما یک سبد خرید ناتمام داری!</span>
-                        <span id="resumeOrderDetails" class="text-[10px] font-bold text-amber-900"></span>
-                    </div>
-                </div>
-                <button onclick="showScreen('cart')" class="bg-pink-600 hover:bg-pink-700 text-white px-3 py-1.5 rounded-xl border-2 border-black font-black text-xs shadow-[2px_2px_0px_#000] active:translate-x-0.5 active:translate-y-0.5 transition-all">ادامه خرید ➔</button>
+                <span class="text-sm font-black text-amber-950">⚡ شما یک سبد خرید ناتمام داری! </span>
+                <button onclick="showScreen('cart')" class="bg-pink-600 text-white px-3 py-1.5 rounded-xl border border-black font-bold text-xs shadow-sm">ادامه خرید ➔</button>
             </div>
             
             <div class="hero-gradient text-white py-16 px-6 text-center rounded-3xl my-2">
@@ -639,7 +390,7 @@
                 </div>
             </div>
             
-            <!-- بخش مزایا -->
+            <!-- بخش مزایا با کارت‌های سبک مانگا -->
             <div id="benefits" class="py-16 container mx-auto px-4">
                 <div class="text-center mb-12">
                     <h2 class="text-2xl md:text-3xl font-black text-purple-950 mb-3">ویژگی‌های شگفت‌انگیز ✨</h2>
@@ -670,7 +421,7 @@
                 </div>
             </div>
 
-            <!-- بخش سوالات متداول -->
+            <!-- بخش سوالات متداول سبک مانگا -->
             <section id="faq" class="py-12 container mx-auto px-4 max-w-3xl">
                 <h2 class="text-2xl font-black text-center mb-8 text-purple-950">سوالات متداول</h2>
                 <div class="space-y-4">
@@ -685,17 +436,18 @@
                     </details>
                     <details class="anime-card p-5 group cursor-pointer">
                         <summary class="font-black flex justify-between items-center text-pink-700">
-                            سفارش رو چطور بفرستم؟
+                            سفارش رو چطور در پیام‌رسان‌ها بفرستم؟
                             <span class="group-open:rotate-180 transition">🔻</span>
                         </summary>
                         <p class="mt-3 text-sm font-bold text-gray-600 leading-relaxed border-t border-gray-200 pt-3">
-                            کافیه پوسترهای مورد نظرتون رو انتخاب کنید. موقع ثبت سفارش متن لیست سفارش خودکار کپی می‌شه و می‌تونید اون رو به هر شماره دلخواهی ارسال کنید!
+                            کافیه پوسترهای مورد نظرتون رو به سبد خرید اضافه کنید و در انتها دکمه ارسال به واتس‌آپ یا ایتا رو لمس کنید!
                         </p>
                     </details>
+                    
                 </div>
             </section>
         </section>
-
+        
         <!-- صفحه گالری محصولات -->
         <section id="galleryScreen" class="hidden-section container mx-auto px-4 py-2">
             <div class="mb-4 text-center">
@@ -726,60 +478,78 @@
         <!-- صفحه سبد خرید -->
         <section id="cartScreen" class="hidden-section container mx-auto px-4 py-2 max-w-3xl">
             <div class="anime-card p-5 md:p-8">
-                <div class="flex items-center justify-between mb-6 border-b-2 border-black pb-4">
+                <div class="flex items-center gap-2 mb-6 border-b-2 border-black pb-4">
                     <h2 class="text-xl font-black text-purple-950">🛒 سبد خرید و ثبت سفارش</h2>
-                    <span id="cartTotalItems" class="text-xs font-black bg-pink-100 border border-black px-3 py-1 rounded-full text-pink-700"></span>
                 </div>
-
-                <div id="cartList" class="space-y-6 mb-6"></div>
-
-                <div id="cartCategorySummary" class="mb-6 bg-pink-100/70 border-2 border-black p-4 rounded-2xl hidden shadow-[3px_3px_0px_#000]">
-                    <h3 class="font-black text-xs text-purple-950 mb-3 flex items-center gap-1.5 border-b border-pink-300 pb-2">
-                        <i class="fas fa-list-check text-pink-600"></i> خلاصه کلی سفارش به تفکیک دسته‌بندی:
-                    </h3>
-                    <div id="categorySummaryList" class="space-y-2 text-xs font-bold"></div>
+                <div id="cartList" class="space-y-4 mb-6"></div>
+                
+                <div class="bg-pink-100 border-2 border-black p-4 rounded-2xl mb-6 flex justify-between items-center shadow-[3px_3px_0px_#000]">
+                    <span class="text-base font-black text-purple-950">مبلغ قابل پرداخت:</span>
+                    <span id="totalPrice" class="text-xl font-black text-pink-600">۰ ریال</span>
                 </div>
 
                 <div class="space-y-3 bg-purple-50 border-2 border-black p-4 rounded-2xl mb-6">
                     <h4 class="font-black text-purple-950 text-xs">📝 مشخصات تحویل‌گیرنده:</h4>
-                    <input type="text" id="customerName" oninput="saveCustomerData()" placeholder="نام و نام خانوادگی *" class="w-full p-3 rounded-xl border-2 border-black outline-none font-bold text-xs bg-white">
-                    <input type="tel" id="customerPhone" oninput="saveCustomerData()" placeholder="شماره همراه شما *" class="w-full p-3 rounded-xl border-2 border-black outline-none font-bold text-xs bg-white">
-                    <textarea id="customerAddress" oninput="saveCustomerData()" placeholder="آدرس دقیق ارسال *" rows="2" class="w-full p-3 rounded-xl border-2 border-black outline-none font-bold text-xs bg-white"></textarea>
+                    <input type="text" id="customerName" oninput="saveCustomerData()" placeholder="نام و نام خانوادگی" class="w-full p-3 rounded-xl border-2 border-black outline-none font-bold text-xs bg-white">
+                    <input type="tel" id="customerPhone" oninput="saveCustomerData()" placeholder="شماره همراه" class="w-full p-3 rounded-xl border-2 border-black outline-none font-bold text-xs bg-white">
+                    <textarea id="customerAddress" oninput="saveCustomerData()" placeholder="آدرس دقیق ارسال" rows="2" class="w-full p-3 rounded-xl border-2 border-black outline-none font-bold text-xs bg-white"></textarea>
                 </div>
 
                 <div class="p-4 bg-pink-50 border-2 border-black rounded-2xl">
-                    <div class="mb-4 bg-white p-3 rounded-xl border-2 border-black">
-                        <label class="block font-black text-purple-950 text-xs mb-1">📱 شماره مقصد / گیرنده سفارش (اجباری) *:</label>
-                        <input type="tel" id="targetPhone" oninput="saveCustomerData()" placeholder="مثلاً: 09123456789" class="w-full p-3 rounded-xl border-2 border-black outline-none font-bold text-xs bg-pink-50 text-left dir-ltr">
-                        <span class="text-[10px] text-pink-600 font-bold block mt-1">وارد کردن شماره مقصد جهت ارسال در پیام‌رسان‌ها الزامی است.</span>
-                    </div>
-
                     <p class="text-pink-900 text-xs font-black mb-3 text-center">
-                        📋 هنگام کلیک، متن سفارش کپی شده و سپس جهت ارسال هدایت می‌شوید:
+                        🚀 جهت ارسال نهایی لیست، پیام‌رسان مورد نظر را انتخاب کنید:
                     </p>
 
-                    <div id="cartSubmitButtons" class="grid grid-cols-1 md:grid-cols-3 gap-3">
-                        <button onclick="submitOrder('copy')" 
-                            class="flex flex-col items-center justify-center bg-purple-600 text-white py-3 rounded-xl border-2 border-black shadow-[3px_3px_0px_#000] hover:bg-purple-700 active:translate-x-0.5 active:translate-y-0.5 transition-all font-black text-xs">
-                            <span class="text-lg mb-1">📋</span>
-                            <span>فقط کپی متن سفارش</span>
-                        </button>
-
+                    <div id="cartSubmitButtons" class="grid grid-cols-2 gap-3">
                         <button onclick="submitOrder('whatsapp')" 
                             class="flex flex-col items-center justify-center bg-emerald-500 text-white py-3 rounded-xl border-2 border-black shadow-[3px_3px_0px_#000] hover:bg-emerald-600 active:translate-x-0.5 active:translate-y-0.5 transition-all font-black text-xs">
                             <span class="text-lg mb-1">💬</span>
-                            <span>کپی و ارسال واتس‌آپ</span>
+                            <span>ارسال در واتس‌آپ</span>
                         </button>
 
                         <button onclick="submitOrder('eitaa')" 
                             class="flex flex-col items-center justify-center bg-orange-500 text-white py-3 rounded-xl border-2 border-black shadow-[3px_3px_0px_#000] hover:bg-orange-600 active:translate-x-0.5 active:translate-y-0.5 transition-all font-black text-xs">
                             <span class="text-lg mb-1">🟠</span>
-                            <span>کپی و ارسال ایتا</span>
+                            <span>ارسال در ایتا</span>
                         </button>
                     </div>
 
                     <button onclick="clearCart()" class="w-full mt-4 text-red-600 text-xs font-black hover:underline text-center block">
                         🗑️ انصراف و پاک کردن کامل سبد
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- صفحه دستیار هوشمند انیمه‌ای -->
+        <section id="assistantScreen" class="hidden-section container mx-auto px-4 py-4 max-w-2xl">
+            <div class="anime-card overflow-hidden flex flex-col h-[75vh]">
+                <div class="bg-purple-900 text-white p-4 flex items-center gap-3 border-b-2 border-black">
+                    <div class="w-10 h-10 rounded-full bg-pink-500 border-2 border-black flex items-center justify-center text-xl shadow-[2px_2px_0px_#000]">
+                        🤖
+                    </div>
+                    <div>
+                        <h3 class="font-black text-sm">دستیار هوشمند انیمه‌ای (AI Assistant)</h3>
+                        <span class="text-[10px] text-pink-200 font-bold block">پاسخگوی هوشمند شما برای انتخاب پوستر</span>
+                    </div>
+                </div>
+                
+                <div id="aiChatBody" class="flex-1 p-4 overflow-y-auto bg-pink-50/50 flex flex-col gap-3">
+                    <div class="ai-message gemini">
+                        <p class="font-black text-pink-600 mb-1">کونیچیوا! ✨ (سلام!)</p>
+                        <p class="text-xs font-bold leading-relaxed">من مشاور هوشمند پوستر ایران هستم. می‌تونم کمکت کنم بهترین پوسترهای آموزشی رو متناسب با مقطع تحصیلی یا کلاس درست پیدا کنی!</p>
+                    </div>
+                </div>
+
+                <div class="flex gap-2 overflow-x-auto p-2 bg-white border-t-2 border-black whitespace-nowrap">
+                    <button onclick="sendQuickPrompt('بهترین پوسترهای کلاس اول دبستان چیست؟')" class="bg-pink-100 border border-black px-3 py-1.5 rounded-xl text-xs font-black text-pink-800">🎒 پوسترهای کلاس اول</button>
+                    <button onclick="sendQuickPrompt('چگونه با پوستر ضرب و تقسیم یک بازی کلاسی طراحی کنم؟')" class="bg-purple-100 border border-black px-3 py-1.5 rounded-xl text-xs font-black text-purple-800">🎲 بازی ضرب و تقسیم</button>
+                </div>
+
+                <div class="p-3 bg-white border-t-2 border-black flex gap-2">
+                    <input type="text" id="aiChatInput" onkeypress="handleAiInputKeypress(event)" class="flex-1 px-4 py-2.5 rounded-xl border-2 border-black outline-none text-xs font-bold" placeholder="سوالت رو اینجا ازم بپرس...">
+                    <button onclick="sendAiMessage()" class="bg-pink-500 hover:bg-pink-600 text-white px-5 py-2.5 rounded-xl border-2 border-black font-black text-xs shadow-[2px_2px_0px_#000]">
+                        ارسال
                     </button>
                 </div>
             </div>
@@ -802,14 +572,9 @@
         <!-- صفحه تاریخچه سفارشات -->
         <section id="historyScreen" class="hidden-section container mx-auto px-4 py-4 max-w-3xl">
             <div class="anime-card p-6">
-                <div class="flex items-center justify-between mb-4 pb-2 border-b-2 border-black">
-                    <h2 class="text-xl font-black text-purple-950 flex items-center gap-2">
-                        📜 تاریخچه سفارش‌های شما
-                    </h2>
-                    <button onclick="clearAllHistory()" id="clearHistoryBtn" class="bg-red-500 hover:bg-red-600 text-white text-[10px] font-black px-3 py-1.5 rounded-xl border-2 border-black shadow-[2px_2px_0px_#000] transition active:translate-x-0.5 active:translate-y-0.5 hidden flex items-center gap-1">
-                        <i class="fas fa-trash-alt"></i> پاک‌سازی کامل
-                    </button>
-                </div>
+                <h2 class="text-xl font-black text-purple-950 mb-4 flex items-center gap-2">
+                    📜 تاریخچه سفارش‌های شما
+                </h2>
                 <div id="historyList" class="space-y-3">
                     <p class="text-gray-400 text-center py-8 text-xs font-bold">هنوز هیچ سفارشی ثبت نکرده‌اید!</p>
                 </div>
@@ -817,7 +582,7 @@
         </section>
     </main>
 
-    <!-- منوی پایینی چسبنده -->
+    <!-- منوی پایینی چسبنده انیمه‌ای -->
     <div class="fixed bottom-3 left-3 right-3 z-[100] max-w-md mx-auto">
         <nav class="bg-white/90 backdrop-blur-md border-3 border-black shadow-[4px_4px_0px_#000] rounded-2xl flex justify-around items-center py-1.5 px-1">
             <button onclick="showScreen('home')" id="nav-home" class="flex flex-col items-center gap-0.5 text-pink-600 flex-1">
@@ -839,14 +604,24 @@
                 <i class="fas fa-history text-lg"></i>
                 <span class="text-[9px] font-black">سفارشات</span>
             </button>
-            <button onclick="showScreen('about')" id="nav-about" class="flex flex-col items-center gap-0.5 text-gray-500 flex-1">
-                <i class="fas fa-info-circle text-lg"></i>
-                <span class="text-[9px] font-black">درباره ما</span>
-            </button>
         </nav>
     </div>
 
-    <!-- مودال‌های نمایش عکس -->
+    <!-- مودال‌های تاییدیه و نمایش عکس -->
+    <div id="confirmModal" class="fixed inset-0 z-[300] hidden bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl p-6 max-w-sm w-full border-3 border-black shadow-[6px_6px_0px_#000] text-center">
+            <div class="w-16 h-16 bg-pink-100 text-pink-600 border-2 border-black rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">
+                ⚠️
+            </div>
+            <h3 class="text-base font-black text-gray-900 mb-2" id="confirmTitle">مطمئن هستید؟</h3>
+            <p class="text-xs font-bold text-gray-600 mb-6" id="confirmMessage"></p>
+            <div class="flex gap-3">
+                <button id="confirmYesBtn" class="flex-1 bg-pink-600 text-white py-2.5 rounded-xl border-2 border-black font-black text-xs">بله</button>
+                <button id="confirmNoBtn" class="flex-1 bg-gray-100 text-gray-800 py-2.5 rounded-xl border-2 border-black font-black text-xs">انصراف</button>
+            </div>
+        </div>
+    </div>
+
     <div id="imageModal" class="fixed inset-0 z-[200] hidden bg-black/90 flex items-center justify-center p-4 backdrop-blur-md" onclick="closeModal()">
         <span class="absolute top-5 right-5 text-white text-4xl cursor-pointer font-bold z-[210]">&times;</span>
         <div id="modalSpinner" class="absolute inset-0 flex items-center justify-center z-10">
@@ -856,40 +631,6 @@
     </div>
 
     <script>
-        // ثبت سرویس ورکر در صورت پشتیبانی
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js').catch(err => {
-                    console.log('ServiceWorker registration failed: ', err);
-                });
-            });
-        }
-
-        // بررسی و مدیریت وضعیت آفلاین/آنلاین
-        function updateOnlineStatus() {
-            const overlay = document.getElementById('offlineOverlay');
-            if (!overlay) return;
-            if (navigator.onLine) {
-                overlay.classList.add('hidden');
-                overlay.classList.remove('flex');
-            } else {
-                overlay.classList.remove('hidden');
-                overlay.classList.add('flex');
-            }
-        }
-
-        function checkConnectionManually() {
-            updateOnlineStatus();
-            if (navigator.onLine) {
-                showToast('🌐 اتصال به اینترنت برقرار است.', '', 'success');
-            } else {
-                showToast('❌ هنوز به اینترنت متصل نیستید!', '', 'remove');
-            }
-        }
-
-        window.addEventListener('online', updateOnlineStatus);
-        window.addEventListener('offline', updateOnlineStatus);
-
         /* ایجاد افکت باران شکوفه گیلاس Sakura */
         function createSakuraPetals() {
             const container = document.getElementById('sakuraContainer');
@@ -911,6 +652,11 @@
             if (n === null || n === undefined) return '';
             const farsiDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
             return n.toString().replace(/\d/g, x => farsiDigits[x]);
+        }
+
+        function toPersianPrice(n) {
+            if (n === null || n === undefined) return '۰';
+            return toPersianDigits(n.toLocaleString());
         }
 
         let toastQueue = [];
@@ -1032,7 +778,7 @@
 
         function showScreen(screenId) {
             currentScreen = screenId;
-            const sections = ['home', 'gallery', 'cart', 'about', 'history'];
+            const sections = ['home', 'gallery', 'cart', 'about', 'history', 'assistant'];
             sections.forEach(id => {
                 const el = document.getElementById(id + 'Screen');
                 if (el) el.classList.add('hidden-section');
@@ -1086,11 +832,12 @@
                         <img src="${thumbSrc}" class="w-full h-full object-contain" onerror="this.onerror=null; this.src='${originalSrc}';">
                         ${isOutOfStock ? `<span class="absolute bg-red-600 text-white text-[9px] font-black px-2 py-0.5 rounded-full border border-black">ناموجود</span>` : ''}
                     </div>
-                    <h4 class="font-black text-xs text-center h-8 overflow-hidden mb-2 text-purple-950">${img.name}</h4>
+                    <h4 class="font-black text-xs text-center h-8 overflow-hidden mb-1 text-purple-950">${img.name}</h4>
+                    <p class="text-pink-600 font-black text-xs mb-2">${toPersianPrice(img.price)} ریال</p>
                     ${!isOutOfStock ? `
                         <div class="w-full mt-auto pt-2 border-t border-gray-200">
-                            <select onchange="addToCart('${img.filename}', '${img.name}', parseInt(this.value), '${info.name}', this)" 
-                                    class="w-full text-xs font-black text-purple-900 bg-pink-100 border border-black rounded-lg p-1.5 outline-none cursor-pointer">
+                            <select onchange="addToCart('${img.filename}', '${img.name}', parseInt(this.value), ${img.price}, '${info.name}')" 
+                                    class="w-full text-xs font-black text-purple-900 bg-pink-100 border border-black rounded-lg p-1 outline-none">
                                 ${optionsHtml}
                             </select>
                         </div>
@@ -1100,36 +847,13 @@
             });
         }
 
-        function addToCart(filename, name, qty, groupName, selectElem = null) {
+        function addToCart(filename, name, qty, price, groupName) {
             const productId = groupName + "_" + filename;
-
-            /* بررسی محدودیت حداقل ۲۰۰ عدد برای مجموع دو گروه ۷۰×۵۰ (یکرو و یووی‌دار) */
-            const group4Name = groupInfo[4]?.name;
-            const group5Name = groupInfo[5]?.name;
-            const isB2Group = (groupName === group4Name || groupName === group5Name);
-
-            if (isB2Group && qty > 0) {
-                let currentB2TotalExceptSelf = 0;
-                Object.keys(cart).forEach(id => {
-                    const item = cart[id];
-                    if ((item.groupName === group4Name || item.groupName === group5Name) && id !== productId) {
-                        currentB2TotalExceptSelf += item.quantity;
-                    }
-                });
-
-                const minRequiredForB2 = 200;
-                const totalWithNewQty = currentB2TotalExceptSelf + qty;
-
-                if (totalWithNewQty < minRequiredForB2) {
-                    showToast(`⚠️ مجموع سفارش پوسترهای ۷۰×۵۰ باید حداقل ۲۰۰ عدد باشد. (فعلاً ${toPersianDigits(totalWithNewQty)} عدد انتخاب کرده‌اید)`, groupName, "remove");
-                }
-            }
-
             if (qty === 0) {
                 delete cart[productId];
                 showToast(`❌ «${name}» حذف شد.`, groupName, "remove");
             } else {
-                cart[productId] = { filename, name, quantity: qty, groupName };
+                cart[productId] = { filename, name, quantity: qty, price, groupName };
                 showToast(`✨ ${toPersianDigits(qty)} عدد «${name}» اضافه شد!`, groupName, "success");
             }
             updateBadge();
@@ -1145,196 +869,37 @@
                     badge.classList.add('hidden');
                 }
             });
-            
-            const resumeOrderBox = document.getElementById('resumeOrder');
-            const resumeDetails = document.getElementById('resumeOrderDetails');
-            if (resumeOrderBox) {
-                if (itemsCount > 0) {
-                    const totalQty = Object.values(cart).reduce((acc, item) => acc + item.quantity, 0);
-                    if (resumeDetails) {
-                        resumeDetails.innerText = `${toPersianDigits(itemsCount)} عنوان (${toPersianDigits(totalQty)} عدد) در سبد منتظر ثبت شماست.`;
-                    }
-                    resumeOrderBox.classList.remove('hidden');
-                } else {
-                    resumeOrderBox.classList.add('hidden');
-                }
-            }
-            
-            saveCartToLocalStorage();
-        }
-
-        function saveCartToLocalStorage() {
-            localStorage.setItem('posterIranCart', JSON.stringify(cart));
-        }
-
-        function loadCartFromLocalStorage() {
-            const savedCart = localStorage.getItem('posterIranCart');
-            if (savedCart) {
-                try {
-                    cart = JSON.parse(savedCart);
-                    validateAndSyncCart();
-                    updateBadge();
-                } catch(e) {
-                    cart = {};
-                }
-            }
-        }
-
-        /* بررسی و همگام‌سازی هوشمند سبد خرید با آخرین وضعیت کاتالوگ */
-        function validateAndSyncCart() {
-            let modified = false;
-            Object.keys(cart).forEach(productId => {
-                const item = cart[productId];
-                let productFound = false;
-                let currentImg = null;
-
-                // پیدا کردن محصول در کاتالوگ بر اساس نام گروه و فایل
-                Object.keys(groupInfo).forEach(gid => {
-                    const info = groupInfo[gid];
-                    if (info.name === item.groupName) {
-                        const found = info.images.find(img => img.filename === item.filename);
-                        if (found) {
-                            productFound = true;
-                            currentImg = found;
-                        }
-                    }
-                });
-
-                // شرط ۱: اگر محصول دیگر وجود ندارد یا ناموجود شده است، از سبد حذف شود
-                if (!productFound || (currentImg && currentImg.outOfStock)) {
-                    delete cart[productId];
-                    modified = true;
-                    showToast(`⚠️ «${item.name}» به دلیل عدم موجودی از سبد خرید حذف شد.`, item.groupName, "remove");
-                } 
-                // شرط ۲: اگر تعداد انتخابی دیگر در دسترس نیست، به اولین عدد مجاز بالاتر ارتقا یابد
-                else if (currentImg && currentImg.allowedQuantities) {
-                    const allowed = currentImg.allowedQuantities.filter(q => q > 0);
-                    if (allowed.length > 0 && !allowed.includes(item.quantity)) {
-                        // پیدا کردن اولین عدد بزرگتر مجاز
-                        const higherQty = allowed.find(q => q > item.quantity);
-                        if (higherQty) {
-                            cart[productId].quantity = higherQty;
-                            showToast(`ℹ️ تعداد «${item.name}» به ${toPersianDigits(higherQty)} عدد تغییر یافت.`, item.groupName, "success");
-                        } else {
-                            // اگر عدد بزرگتری وجود نداشت، روی بالاترین مقدار مجاز تنظیم می‌شود
-                            const maxQty = Math.max(...allowed);
-                            cart[productId].quantity = maxQty;
-                            showToast(`ℹ️ تعداد «${item.name}» روی حداکثر مقدار مجاز (${toPersianDigits(maxQty)} عدد) تنظیم شد.`, item.groupName, "success");
-                        }
-                        modified = true;
-                    }
-                }
-            });
-
-            if (modified) {
-                saveCartToLocalStorage();
-            }
         }
 
         function updateCartDisplay() {
-            validateAndSyncCart();
             const list = document.getElementById('cartList');
-            const totalItemsEl = document.getElementById('cartTotalItems');
-            const summaryBox = document.getElementById('cartCategorySummary');
-            const summaryList = document.getElementById('categorySummaryList');
-            
+            const totalDisplay = document.getElementById('totalPrice');
             const items = Object.values(cart);
             
             if (items.length === 0) {
                 list.innerHTML = `<p class="text-center text-gray-400 font-bold py-10 text-xs">سبد خرید شما خالی است🌸</p>`;
-                if (totalItemsEl) totalItemsEl.innerText = "۰ قلم محصول";
-                if (summaryBox) summaryBox.classList.add('hidden');
+                totalDisplay.innerText = '۰ ریال';
                 return;
             }
             
-            const groupOrder = [1, 2, 4, 5, 6];
-            const groupedItems = {};
-
-            groupOrder.forEach(gid => {
-                const groupName = groupInfo[gid]?.name;
-                if (groupName) groupedItems[groupName] = [];
-            });
-
-            let totalQty = 0;
-
-            items.forEach(item => {
-                totalQty += item.quantity;
-                if (!groupedItems[item.groupName]) {
-                    groupedItems[item.groupName] = [];
-                }
-                groupedItems[item.groupName].push(item);
-            });
-
-            if (summaryBox && summaryList) {
-                let summaryHtml = '';
-                Object.keys(groupedItems).forEach(groupName => {
-                    const groupGroupItems = groupedItems[groupName];
-                    if (groupGroupItems.length > 0) {
-                        const countInGroup = groupGroupItems.reduce((acc, cur) => acc + cur.quantity, 0);
-                        summaryHtml += `
-                            <div class="flex justify-between items-center bg-white px-3 py-1.5 rounded-xl border border-black text-pink-900">
-                                <span class="font-black text-[11px]">${groupName}</span>
-                                <span class="bg-pink-500 text-white text-[10px] px-2 py-0.5 rounded-full font-black">${toPersianDigits(countInGroup)} عدد (${toPersianDigits(groupGroupItems.length)} عنوان)</span>
-                            </div>
-                        `;
-                    }
-                });
-                summaryList.innerHTML = summaryHtml;
-                summaryBox.classList.remove('hidden');
-            }
-
+            let total = 0;
             let htmlContent = '';
             
-            Object.keys(groupedItems).forEach(groupName => {
-                const groupGroupItems = groupedItems[groupName];
-                if (groupGroupItems.length > 0) {
-                    let groupGid = Object.keys(groupInfo).find(key => groupInfo[key].name === groupName);
-
-                    htmlContent += `
-                        <div class="bg-pink-50/70 border-2 border-black rounded-2xl p-4 shadow-[3px_3px_0px_#000]">
-                            <div class="flex items-center gap-2 mb-3 pb-2 border-b-2 border-pink-200">
-                                <span class="text-pink-600 font-black text-xs">🌸 ${groupName}</span>
-                            </div>
-                            <div class="space-y-2">
-                    `;
-                    
-                    groupGroupItems.forEach(item => {
-                        let allowedQtys = [0, 30, 50, 100, 200, 300, 400, 500];
-                        if (groupGid && groupInfo[groupGid]) {
-                            const foundImg = groupInfo[groupGid].images.find(img => img.filename === item.filename);
-                            if (foundImg && foundImg.allowedQuantities) {
-                                allowedQtys = foundImg.allowedQuantities;
-                            }
-                        }
-
-                        let optionsHtml = allowedQtys.map(q => 
-                            `<option value="${q}" ${q === item.quantity ? 'selected' : ''}>${q === 0 ? '🗑️ حذف از سبد' : toPersianDigits(q) + ' عدد'}</option>`
-                        ).join('');
-
-                        htmlContent += `
-                            <div class="p-3 bg-white rounded-xl border border-black flex justify-between items-center shadow-sm gap-2">
-                                <div class="flex-1">
-                                    <h4 class="font-black text-xs text-purple-950">${item.name}</h4>
-                                </div>
-                                <div class="w-32">
-                                    <select onchange="addToCart('${item.filename}', '${item.name}', parseInt(this.value), '${item.groupName}'); updateCartDisplay();" 
-                                            class="w-full text-xs font-black text-purple-900 bg-pink-100 border border-black rounded-lg p-1.5 outline-none cursor-pointer">
-                                        ${optionsHtml}
-                                    </select>
-                                </div>
-                            </div>
-                        `;
-                    });
-
-                    htmlContent += `
-                            </div>
+            items.forEach(item => {
+                total += (item.quantity * item.price);
+                htmlContent += `
+                    <div class="p-3 bg-pink-50/50 rounded-xl border border-black flex justify-between items-center">
+                        <div>
+                            <h4 class="font-black text-xs text-purple-950">${item.name}</h4>
+                            <span class="text-[10px] font-bold text-gray-500">${item.groupName}</span>
                         </div>
-                    `;
-                }
+                        <span class="text-xs font-black text-pink-600">${toPersianDigits(item.quantity)} عدد</span>
+                    </div>
+                `;
             });
 
             list.innerHTML = htmlContent;
-            if (totalItemsEl) totalItemsEl.innerText = `${toPersianDigits(items.length)} عنوان | مجموعاً ${toPersianDigits(totalQty)} عدد`;
+            totalDisplay.innerText = toPersianPrice(total) + ' ریال';
         }
 
         function openModal(src) {
@@ -1367,37 +932,48 @@
         setInterval(updateDateTime, 1000);
         updateDateTime();
 
+        /* هندل ارسال پیام هوش مصنوعی */
+        function sendAiMessage() {
+            const input = document.getElementById('aiChatInput');
+            const chatBody = document.getElementById('aiChatBody');
+            if(!input || !input.value.trim()) return;
+
+            const userText = input.value.trim();
+            const userMsg = document.createElement('div');
+            userMsg.className = 'ai-message user';
+            userMsg.innerText = userText;
+            chatBody.appendChild(userMsg);
+            input.value = '';
+
+            setTimeout(() => {
+                const aiMsg = document.createElement('div');
+                aiMsg.className = 'ai-message gemini';
+                aiMsg.innerText = '🌸 ممنون از سوالتون! پوسترهای سری جدول ضرب و الفبا عالی‌ترین انتخاب برای این موضوع هستن!';
+                chatBody.appendChild(aiMsg);
+                chatBody.scrollTop = chatBody.scrollHeight;
+            }, 800);
+        }
+
+        function sendQuickPrompt(prompt) {
+            const input = document.getElementById('aiChatInput');
+            if(input) {
+                input.value = prompt;
+                sendAiMessage();
+            }
+        }
+
+        function handleAiInputKeypress(e) {
+            if(e.key === 'Enter') sendAiMessage();
+        }
+
         function clearCart() {
             cart = {};
-            saveCartToLocalStorage();
             updateBadge();
             updateCartDisplay();
             showToast('🗑️ سبد خرید پاک شد', '', 'remove');
         }
 
-        /* تابع کپی متن سفارشی در حافظه Clipboard */
-        function copyTextToClipboard(text) {
-            if (navigator.clipboard && window.isSecureContext) {
-                return navigator.clipboard.writeText(text);
-            } else {
-                const textArea = document.createElement("textarea");
-                textArea.value = text;
-                textArea.style.position = "fixed";
-                textArea.style.left = "-999999px";
-                document.body.appendChild(textArea);
-                textArea.focus();
-                textArea.select();
-                try {
-                    document.execCommand('copy');
-                } catch (err) {
-                    console.error('امکان کپی خودکار وجود ندارد', err);
-                }
-                document.body.removeChild(textArea);
-                return Promise.resolve();
-            }
-        }
-
-        /* تابع اصلی ثبت سفارش */
+        /* تابع اصلی و جدید ثبت سفارش در واتس‌آپ و ایتا + ذخیره در تاریخچه */
         function submitOrder(platform) {
             const items = Object.values(cart);
             if (items.length === 0) {
@@ -1405,252 +981,95 @@
                 return;
             }
 
-            const group4Name = groupInfo[4]?.name;
-            const now = new Date();
-            const orderDateStr = new Intl.DateTimeFormat('fa-IR-u-nu-latn', { year: 'numeric', month: '2-digit', day: '2-digit' }).format(now);
-            const orderTimeStr = now.toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit' });
+            const name = document.getElementById('customerName').value.trim();
+            const phone = document.getElementById('customerPhone').value.trim();
+            const address = document.getElementById('customerAddress').value.trim();
 
+            if (!name || !phone || !address) {
+                showToast('⚠️ لطفاً اطلاعات نام، شماره همراه و آدرس را کامل وارد کنید.', '', 'remove');
+                return;
+            }
+
+            let total = 0;
             let orderText = `🌸 *سفارش جدید - پوستر ایران* 🌸\n\n`;
-            orderText += `📅 *تاریخ و زمان ثبت:* ${toPersianDigits(orderDateStr)} - ساعت ${toPersianDigits(orderTimeStr)}\n`;
             orderText += `👤 *سفارش‌دهنده:* ${name}\n`;
             orderText += `📞 *شماره تماس:* ${phone}\n`;
             orderText += `📍 *آدرس تحویل:* ${address}\n\n`;
-            orderText += `📑 *جزئیات اقلام سفارش:* \n`;
+            orderText += `📑 *اقلام سفارش:* \n`;
             orderText += `-----------------------------------\n`;
 
-            let itemCounter = 1;
-            Object.keys(groupedForText).forEach(gName => {
-                const list = groupedForText[gName];
-                if (list.length > 0) {
-                    orderText += `📌 *[${gName}]*\n`;
-                    list.forEach(item => {
-                        orderText += `${itemCounter++}. *${item.name}* -> ${toPersianDigits(item.quantity)} عدد\n`;
-                    });
-                    orderText += `\n`;
-                }
+            items.forEach((item, index) => {
+                const subtotal = item.quantity * item.price;
+                total += subtotal;
+                orderText += `${index + 1}. *${item.name}* (${item.groupName})\n`;
+                orderText += `   تعداد: ${toPersianDigits(item.quantity)} عدد | قیمت کل: ${toPersianPrice(subtotal)} ریال\n\n`;
             });
 
             orderText += `-----------------------------------\n`;
-            orderText += `📊 *خلاصه کل سفارش به تفکیک دسته:* \n`;
-            Object.keys(groupedForText).forEach(gName => {
-                const list = groupedForText[gName];
-                if (list.length > 0) {
-                    const totalGroupQty = list.reduce((acc, cur) => acc + cur.quantity, 0);
-                    orderText += `▫️ *${gName}:* ${toPersianDigits(totalGroupQty)} عدد (${toPersianDigits(list.length)} عنوان)\n`;
-                }
-            });
-
-            orderText += `-----------------------------------\n`;
+            orderText += `💰 *مبلغ کل قابل پرداخت:* ${toPersianPrice(total)} ریال\n\n`;
             orderText += `✨ با تشکر از انتخاب پوستر ایران!`;
 
-            saveOrderToHistory(name, phone, address, items);
+            // ۱. ذخیره سفارش در تاریخچه سفارش‌های مرورگر
+            saveOrderToHistory(name, phone, address, items, total);
 
-            copyTextToClipboard(orderText).then(() => {
-                showToast('📋 متن سفارش با موفقیت کپی شد!', '', 'success');
-            });
-
-            cart = {};
-            saveCartToLocalStorage();
-            updateBadge();
-
-            if (platform === 'copy') {
-                updateCartDisplay();
-                return;
-            }
-
-            let rawNumber = customTarget;
-            let cleanNumber = rawNumber.replace(/\D/g, '');
-            if (cleanNumber.startsWith('0')) {
-                cleanNumber = '98' + cleanNumber.substring(1);
-            } else if (!cleanNumber.startsWith('98')) {
-                cleanNumber = '98' + cleanNumber;
-            }
-
+            // ۲. ارسال متن سفارش به پیام‌رسان مربوطه
             const encodedText = encodeURIComponent(orderText);
+            const targetNumber = "989010195885"; // شماره پشتیبانی یا فروش
 
             if (platform === 'whatsapp') {
-                window.open(`https://api.whatsapp.com/send?phone=${cleanNumber}&text=${encodedText}`, '_blank');
+                window.open(`https://api.whatsapp.com/send?phone=${targetNumber}&text=${encodedText}`, '_blank');
             } else if (platform === 'eitaa') {
-                const eitaaAppUrl = `eitaa://share?text=${encodedText}`;
-                const eitaaWebUrl = `https://eitaa.com/share?text=${encodedText}`;
-
-                window.location.href = eitaaAppUrl;
-
-                setTimeout(() => {
-                    window.open(eitaaWebUrl, '_blank');
-                }, 500);
-            }
-            
-            updateCartDisplay();
-        }
-
-        function resendOrderFromHistory(orderId, platform) {
-            const history = JSON.parse(localStorage.getItem('posterIranHistory') || '[]');
-            const selectedOrder = history.find(order => order.id === orderId);
-            
-            if (!selectedOrder || !selectedOrder.items || selectedOrder.items.length === 0) {
-                showToast('❌ اطلاعات سفارش یافت نشد.', '', 'remove');
-                return;
-            }
-
-            const customerInfo = JSON.parse(localStorage.getItem('customerInfo') || '{}');
-            const targetPhone = customerInfo.targetPhone || '';
-
-            if ((platform === 'whatsapp' || platform === 'eitaa') && !targetPhone) {
-                showToast('⚠️ لطفا ابتدا شماره مقصد را در صفحه سبد خرید وارد کنید.', '', 'remove');
-                showScreen('cart');
-                return;
-            }
-
-            const groupOrder = [1, 2, 4, 5, 6];
-            const groupedForText = {};
-            groupOrder.forEach(gid => {
-                const gName = groupInfo[gid]?.name;
-                if (gName) groupedForText[gName] = [];
-            });
-            selectedOrder.items.forEach(item => {
-                if (!groupedForText[item.groupName]) groupedForText[item.groupName] = [];
-                groupedForText[item.groupName].push(item);
-            });
-
-            // محاسبه تاریخ و زمان ارسال جدید
-            const now = new Date();
-            const resendDateStr = new Intl.DateTimeFormat('fa-IR-u-nu-latn', { year: 'numeric', month: '2-digit', day: '2-digit' }).format(now);
-            const resendTimeStr = now.toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit' });
-
-            let orderText = `🌸 *ارسال مجدد سفارش - پوستر ایران* 🌸\n\n`;
-            orderText += `📅 *تاریخ ثبت اولیه:* ${toPersianDigits(selectedOrder.date)}\n`;
-            orderText += `🔄 *تاریخ و زمان ارسال مجدد:* ${toPersianDigits(resendDateStr)} - ساعت ${toPersianDigits(resendTimeStr)}\n`;
-            orderText += `👤 *سفارش‌دهنده:* ${selectedOrder.name || customerInfo.name || 'نامشخص'}\n`;
-            orderText += `📞 *شماره تماس:* ${selectedOrder.phone || customerInfo.phone || 'نامشخص'}\n`;
-            orderText += `📍 *آدرس تحویل:* ${selectedOrder.address || customerInfo.address || 'نامشخص'}\n\n`;
-            orderText += `📑 *جزئیات اقلام سفارش:* \n`;
-            orderText += `-----------------------------------\n`;
-
-            let itemCounter = 1;
-            Object.keys(groupedForText).forEach(gName => {
-                const list = groupedForText[gName];
-                if (list.length > 0) {
-                    orderText += `📌 *[${gName}]*\n`;
-                    list.forEach(item => {
-                        orderText += `${itemCounter++}. *${item.name}* -> ${toPersianDigits(item.quantity)} عدد\n`;
-                    });
-                    orderText += `\n`;
-                }
-            });
-
-            orderText += `-----------------------------------\n`;
-            orderText += `✨ با تشکر از انتخاب پوستر ایران!`;
-
-            copyTextToClipboard(orderText).then(() => {
-                showToast('📋 متن سفارش جهت ارسال مجدد کپی شد!', '', 'success');
-            });
-
-            if (platform === 'copy') return;
-
-            let cleanNumber = targetPhone.replace(/\D/g, '');
-            if (cleanNumber.startsWith('0')) {
-                cleanNumber = '98' + cleanNumber.substring(1);
-            } else if (!cleanNumber.startsWith('98')) {
-                cleanNumber = '98' + cleanNumber;
-            }
-
-            const encodedText = encodeURIComponent(orderText);
-
-            if (platform === 'whatsapp') {
-                window.open(`https://api.whatsapp.com/send?phone=${cleanNumber}&text=${encodedText}`, '_blank');
-            } else if (platform === 'eitaa') {
-                const eitaaAppUrl = `eitaa://share?text=${encodedText}`;
-                const eitaaWebUrl = `https://eitaa.com/share?text=${encodedText}`;
-
-                window.location.href = eitaaAppUrl;
-
-                setTimeout(() => {
-                    window.open(eitaaWebUrl, '_blank');
-                }, 500);
+                window.open(`https://eitaa.com/share?text=${encodedText}`, '_blank');
             }
         }
 
-        function saveOrderToHistory(name, phone, address, items) {
+        /* تابع ذخیره اطلاعات در تاریخچه سفارشات localstorage */
+        function saveOrderToHistory(name, phone, address, items, total) {
             const history = JSON.parse(localStorage.getItem('posterIranHistory') || '[]');
-            const now = new Date();
-            const dateStr = new Intl.DateTimeFormat('fa-IR-u-nu-latn', { year: 'numeric', month: '2-digit', day: '2-digit' }).format(now);
-            const timeStr = now.toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit' });
-            
             const newOrder = {
                 id: Date.now(),
-                date: `${dateStr} (${timeStr})`,
+                date: new Date().toLocaleDateString('fa-IR'),
                 name,
                 phone,
                 address,
-                items
+                items,
+                total
             };
             history.unshift(newOrder);
             localStorage.setItem('posterIranHistory', JSON.stringify(history));
             renderHistory();
         }
 
+        /* تابع نمایش لیست تاریخچه سفارش‌ها */
         function renderHistory() {
             const historyList = document.getElementById('historyList');
-            const clearBtn = document.getElementById('clearHistoryBtn');
             if (!historyList) return;
 
             const history = JSON.parse(localStorage.getItem('posterIranHistory') || '[]');
             if (history.length === 0) {
                 historyList.innerHTML = `<p class="text-gray-400 text-center py-8 text-xs font-bold">هنوز هیچ سفارشی ثبت نکرده‌اید!</p>`;
-                if (clearBtn) clearBtn.classList.add('hidden');
                 return;
             }
 
-            if (clearBtn) clearBtn.classList.remove('hidden');
-
             historyList.innerHTML = history.map(order => `
-                <div class="bg-pink-50/60 p-4 rounded-2xl border-2 border-black shadow-sm mb-3 relative">
-                    <div class="flex justify-between items-center mb-2 border-b border-pink-200 pb-2 pl-8">
-                        <span class="text-xs font-black text-pink-700">📅 تاریخ ثبت: ${toPersianDigits(order.date)}</span>
-                        <span class="text-xs font-black text-purple-950">${toPersianDigits(order.items.length)} آیتم</span>
+                <div class="bg-pink-50/60 p-4 rounded-2xl border-2 border-black shadow-[3px_3px_0px_#000] mb-3">
+                    <div class="flex justify-between items-center mb-2 border-b border-pink-200 pb-2">
+                        <span class="text-xs font-black text-pink-700">📅 تاریخ: ${toPersianDigits(order.date)}</span>
+                        <span class="text-xs font-black text-purple-950">مبلغ: ${toPersianPrice(order.total)} ریال</span>
                     </div>
-                    <button onclick="deleteSingleOrder(${order.id})" title="حذف این سفارش" class="absolute top-3 left-3 bg-red-100 text-red-600 hover:bg-red-500 hover:text-white border border-black w-7 h-7 rounded-lg flex items-center justify-center transition text-xs shadow-sm">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                    <div class="text-[11px] font-bold text-gray-700 space-y-1 mb-3">
+                    <div class="text-[11px] font-bold text-gray-700 space-y-1">
                         ${order.items.map(i => `<div>• ${i.name} - <span class="text-pink-600">${toPersianDigits(i.quantity)} عدد</span></div>`).join('')}
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-2 pt-2 border-t border-pink-200">
-                        <button onclick="reorderFromHistory(${order.id})" class="bg-purple-600 hover:bg-purple-700 text-white text-[11px] font-black py-2 rounded-xl border-2 border-black shadow-sm transition active:translate-x-0.5 active:translate-y-0.5 flex items-center justify-center gap-1">
-                            <i class="fas fa-cart-plus"></i> انقال به سبد
-                        </button>
-                        <button onclick="resendOrderFromHistory(${order.id}, 'whatsapp')" class="bg-emerald-500 hover:bg-emerald-600 text-white text-[11px] font-black py-2 rounded-xl border-2 border-black shadow-sm transition active:translate-x-0.5 active:translate-y-0.5 flex items-center justify-center gap-1">
-                            <i class="fab fa-whatsapp"></i> ارسال مجدد واتس‌اپ
-                        </button>
-                        <button onclick="resendOrderFromHistory(${order.id}, 'eitaa')" class="bg-orange-500 hover:bg-orange-600 text-white text-[11px] font-black py-2 rounded-xl border-2 border-black shadow-sm transition active:translate-x-0.5 active:translate-y-0.5 flex items-center justify-center gap-1">
-                            <i class="fas fa-paper-plane"></i> ارسال مجدد ایتا
-                        </button>
                     </div>
                 </div>
             `).join('');
         }
 
-        function deleteSingleOrder(orderId) {
-            let history = JSON.parse(localStorage.getItem('posterIranHistory') || '[]');
-            history = history.filter(order => order.id !== orderId);
-            localStorage.setItem('posterIranHistory', JSON.stringify(history));
-            renderHistory();
-            showToast('🗑️ سفارش مورد نظر حذف شد.', '', 'remove');
-        }
-
-        function clearAllHistory() {
-            localStorage.removeItem('posterIranHistory');
-            renderHistory();
-            showToast('🗑️ کل تاریخچه سفارشات پاک‌سازی شد.', '', 'remove');
-        }
-
+        /* ذخیره‌سازی و بازخوانی خودکار اطلاعات مشتری در فرم */
         function saveCustomerData() {
             const data = {
                 name: document.getElementById('customerName').value,
                 phone: document.getElementById('customerPhone').value,
                 address: document.getElementById('customerAddress').value,
-                targetPhone: document.getElementById('targetPhone') ? document.getElementById('targetPhone').value : '',
             };
             localStorage.setItem('customerInfo', JSON.stringify(data));
         }
@@ -1662,13 +1081,11 @@
                 if (data.name) document.getElementById('customerName').value = data.name;
                 if (data.phone) document.getElementById('customerPhone').value = data.phone;
                 if (data.address) document.getElementById('customerAddress').value = data.address;
-                if (data.targetPhone && document.getElementById('targetPhone')) document.getElementById('targetPhone').value = data.targetPhone;
             }
-            loadCartFromLocalStorage();
             renderHistory();
-            updateOnlineStatus();
         }
 
+        // فراخوانی بازخوانی داده‌ها هنگام اجرا
         window.addEventListener('DOMContentLoaded', loadCustomerData);
     </script>
 </div>
