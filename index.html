@@ -435,7 +435,7 @@
                 </div>
 
                 <div class="space-y-3 bg-purple-50 border-2 border-black p-4 rounded-2xl mb-6">
-                    <h4 class="font-black text-purple-950 text-xs">📝 مشخصات تحویل‌گیرنده:</h4>
+                    <h4 class="font-black text-purple-950 text-xs">📝 مشخصات سفارش‌دهنده:</h4>
                     <input type="text" id="customerName" oninput="saveCustomerData()" placeholder="نام و نام خانوادگی *" class="w-full p-3 rounded-xl border-2 border-black outline-none font-bold text-xs bg-white">
                     <input type="tel" id="customerPhone" oninput="saveCustomerData()" placeholder="شماره همراه شما *" class="w-full p-3 rounded-xl border-2 border-black outline-none font-bold text-xs bg-white">
                     <textarea id="customerAddress" oninput="saveCustomerData()" placeholder="آدرس دقیق ارسال *" rows="2" class="w-full p-3 rounded-xl border-2 border-black outline-none font-bold text-xs bg-white"></textarea>
@@ -443,7 +443,7 @@
 
                 <div class="p-4 bg-pink-50 border-2 border-black rounded-2xl">
                     <div class="mb-4 bg-white p-3 rounded-xl border-2 border-black">
-                        <label class="block font-black text-purple-950 text-xs mb-1">📱 شماره مقصد / گیرنده سفارش (اجباری) *:</label>
+                        <label class="block font-black text-purple-950 text-xs mb-1">📱 شماره دریافت لیست سفارش (اجباری) *:</label>
                         <input type="tel" id="targetPhone" oninput="saveCustomerData()" placeholder="مثلاً: 09123456789" class="w-full p-3 rounded-xl border-2 border-black outline-none font-bold text-xs bg-pink-50 text-left dir-ltr">
                         <span class="text-[10px] text-pink-600 font-bold block mt-1">وارد کردن شماره مقصد جهت ارسال در پیام‌رسان‌ها الزامی است.</span>
                     </div>
@@ -462,14 +462,9 @@
                         <button onclick="submitOrder('whatsapp')" 
                             class="flex flex-col items-center justify-center bg-emerald-500 text-white py-3 rounded-xl border-2 border-black hover:bg-emerald-600 active:translate-x-0.5 active:translate-y-0.5 transition-all font-black text-xs">
                             <span class="text-lg mb-1">💬</span>
-                            <span>کپی و ارسال واتس‌آپ</span>
+                            <span>کپی و ارسال با واتس‌آپ</span>
                         </button>
 
-                        <button onclick="submitOrder('eitaa')" 
-                            class="flex flex-col items-center justify-center bg-orange-500 text-white py-3 rounded-xl border-2 border-black hover:bg-orange-600 active:translate-x-0.5 active:translate-y-0.5 transition-all font-black text-xs">
-                            <span class="text-lg mb-1">🟠</span>
-                            <span>کپی و ارسال ایتا</span>
-                        </button>
                     </div>
 
                     <button onclick="clearCart()" class="w-full mt-4 text-red-600 text-xs font-black hover:underline text-center block">
@@ -548,6 +543,9 @@
         </div>
         <img id="modalImage" class="max-w-full max-h-[85vh] rounded-2xl border-2 border-white object-contain opacity-0 scale-95 transition-all duration-300 z-20" src="" alt="بزرگنمایی" onclick="event.stopPropagation()">
     </div>
+    
+    <!-- اتصال فایل جدا شده کاتالوگ پوسترها -->
+<script src="./postersData.js"></script>
 
     <script>
         // ثبت سرویس ورکر در صورت پشتیبانی
@@ -639,72 +637,6 @@
                 setTimeout(() => processToastQueue(), 400);
             }, 3000);
         }
-
-        /* داده‌های کاتالوگ پوسترها */
-        const groupInfo = {
-            1: { name: "سایز ۲۹×۲۱ دوروچاپ", images: [
-                { filename: "حساب آموز اول (افقی).webp", name: "حساب آموز اول (افقی)", price: 350000, allowedQuantities: [0, 30, 50, 100, 200, 300, 400, 500], outOfStock: false },
-                { filename: "حساب آموز اول (عمودی).webp", name: "حساب آموز اول (عمودی)", price: 350000, allowedQuantities: [0, 30, 50, 100, 200, 300, 400, 500], outOfStock: false },
-                { filename: "حساب آموز دوم (عمودی).webp", name: "حساب آموز دوم (عمودی)", price: 350000, allowedQuantities: [0, 30, 50, 100, 200, 300, 400, 500], outOfStock: false },
-                { filename: "حساب آموز سوم.webp", name: "حساب آموز سوم", price: 350000, allowedQuantities: [0, 30, 50, 100, 200, 300, 400, 500], outOfStock: false },
-                { filename: "حساب آموز چهارم.webp", name: "حساب آموز چهارم", price: 350000, allowedQuantities: [0, 30, 50, 100, 200, 300, 400, 500], outOfStock: false },
-                { filename: "حساب آموز پنجم.webp", name: "حساب آموز پنجم", price: 350000, allowedQuantities: [0, 30, 50, 100, 200], outOfStock: true },
-                { filename: "حساب آموز ششم.webp", name: "حساب آموز ششم", price: 350000, allowedQuantities: [0, 30, 50, 100, 200, 300, 400, 500], outOfStock: false },
-                { filename: "جدول تناوبی عناصر.webp", name: "جدول تناوبی عناصر", price: 350000, allowedQuantities: [0, 30, 50, 100, 200, 300, 400, 500], outOfStock: false },
-                { filename: "الفبای فارسی و انگلیسی.webp", name: "الفبای فارسی و انگلیسی", price: 350000, allowedQuantities: [0, 30, 50, 100, 200, 300, 400, 500], outOfStock: false },
-                { filename: "جمع و تفریق.webp", name: "جمع و تفریق", price: 350000, allowedQuantities: [0, 30, 50, 100, 200, 300, 400, 500], outOfStock: false },
-                { filename: "جدول دوستی تمرینی.webp", name: "جدول دوستی تمرینی", price: 350000, allowedQuantities: [0, 30, 50, 100, 200, 300, 400, 500], outOfStock: false },
-                { filename: "جدول دوستی کامل.webp", name: "جدول دوستی کامل", price: 350000, allowedQuantities: [0, 30, 50, 100, 200, 300, 400, 500], outOfStock: false },
-                { filename: "ضرب و تقسیم تمرینی.webp", name: "ضرب و تقسیم تمرینی", price: 350000, allowedQuantities: [0, 30, 50, 100, 200, 300, 400, 500], outOfStock: false },
-                { filename: "ضرب و تقسیم.webp", name: "ضرب و تقسیم", price: 350000, allowedQuantities: [0, 30, 50, 100, 200, 300, 400, 500], outOfStock: false },
-                { filename: "ضرب و تمرین ضرب.webp", name: "ضرب و تمرین ضرب", price: 350000, allowedQuantities: [0, 30, 50, 100, 200, 300, 400, 500], outOfStock: false },
-                { filename: "اعداد.webp", name: "اعداد ساده", price: 350000, allowedQuantities: [0, 30, 50, 100, 200, 300, 400, 500], outOfStock: false }, 
-                { filename: "اعداد با ساعت و محور.webp", name: " اعداد با ساعت و محور", price: 350000, allowedQuantities: [0, 30, 50, 100, 200, 300, 400, 500], outOfStock: false },
-                { filename: "آموزش زمان و ساعت.webp", name: "آموزش زمان و ساعت", price: 350000, allowedQuantities: [0, 30, 50, 100, 200, 300, 400, 500], outOfStock: false },
-                { filename: "محیط و مساحت اشکال هندسی.webp", name: "محیط و مساحت اشکال هندسی", price: 350000, allowedQuantities: [0, 30, 50, 100], outOfStock: false },
-                { filename: "جدول تقریب اعداد.webp", name: "جدول تقریب اعداد", price: 350000, allowedQuantities: [0, 30, 50, 100, 200, 300, 400, 500], outOfStock: false },
-            ]},
-            2: { name: "سایز ۴۲×۳۰ یکروچاپ", images: [
-                { filename: "جدول ضرب.webp", name: "جدول ضرب", price: 350000, allowedQuantities: [0, 30, 50, 100, 200, 300, 400, 500], outOfStock: false },
-                { filename: "جدول ضرب حیوانات.webp", name: "جدول ضرب حیوانات", price: 350000, allowedQuantities: [0, 30, 50, 100, 200, 300, 400, 500], outOfStock: false },
-                { filename: "جدول دوستی کامل.webp", name: "جدول دوستی کامل", price: 350000, allowedQuantities: [0, 30, 50, 100, 200, 300, 400, 500], outOfStock: false },
-                { filename: "الفبای فارسی.webp", name: "الفبای فارسی", price: 350000, allowedQuantities: [0, 30, 50, 100, 200, 300, 400, 500], outOfStock: false },
-            ]},
-            3: { name: "سایز ۵۰×۳۵ دوروچاپ", images: [
-                { filename: "آموزش زمان و ساعت.webp", name: "آموزش زمان و ساعت", price: 700000, allowedQuantities: [0, 30, 50, 100], outOfStock: false },
-                { filename: "ضرب و تقسیم تمرینی.webp", name: "ضرب و تقسیم تمرینی", price: 700000, allowedQuantities: [0, 30, 50, 100], outOfStock: false },
-            ]},
-            4: { name: "سایز ۷۰×۵۰ یکروچاپ", images: [
-                { filename: "الفبای فارسی شکل دار.webp", name: "الفبای فارسی شکل دار", price: 700000, allowedQuantities: [0, 20, 30, 40, 50, 100, 200, 300, 400, 500], outOfStock: false },
-                { filename: "جدول دوستی.webp", name: "جدول دوستی", price: 700000, allowedQuantities: [0, 20, 30, 40, 50, 100, 200, 300, 400, 500], outOfStock: false },
-                { filename: "جدول ضرب.webp", name: "جدول ضرب", price: 700000, allowedQuantities: [0, 20, 30, 40, 50, 100, 200, 300, 400, 500], outOfStock: false },
-                { filename: "اعداد 1 تا 100.webp", name: "اعداد یک تا صد", price: 700000, allowedQuantities: [0, 20, 30, 40, 50, 100, 200, 300, 400, 500], outOfStock: false },
-            ]},
-            5: { name: "سایز ۷۰×۵۰ یووی‌دار", images: [
-                { filename: "ضرب تمرینی مربعی.webp", name: "ضرب تمرینی مربعی", price: 900000, allowedQuantities: [0, 20, 30, 40, 50, 100, 200, 300, 400, 500], outOfStock: false },
-                { filename: "ضرب تمرینی ستونی.webp", name: "ضرب تمرینی ستونی", price: 900000, allowedQuantities: [0, 20, 30, 40, 50, 100, 200, 300, 400, 500], outOfStock: false },
-                { filename: "آموزش زمان وساعت.webp", name: "آموزش زمان وساعت", price: 900000, allowedQuantities: [0, 20, 30, 40, 50, 100, 200, 300, 400, 500], outOfStock: false },
-                { filename: "جدول دوستی تمرینی.webp", name: "جدول دوستی تمرینی", price: 900000, allowedQuantities: [0, 20, 30, 40, 50, 100, 200, 300, 400, 500], outOfStock: false },
-                { filename: "اعداد یک تا صد.webp", name: "اعداد یک تا صد", price: 900000, allowedQuantities: [0, 20, 30, 40, 50, 100, 200, 300, 400, 500], outOfStock: false },
-                { filename: "اعداد ده تا هزار.webp", name: "اعداد ده تا هزار", price: 900000, allowedQuantities: [0, 20, 30, 40, 50, 100, 200, 300, 400, 500], outOfStock: false },
-                { filename: "جدول تناوبی عناصر.webp", name: "جدول تناوبی عناصر", price: 900000, allowedQuantities: [0, 20, 30, 40, 50, 100, 200, 300, 400, 500], outOfStock: false },
-                { filename: "محیط و مساحت اشکال هندسی.webp", name: "محیط و مساحت اشکال هندسی", price: 900000, allowedQuantities: [0, 20, 30, 40, 50, 100, 200, 300, 400, 500], outOfStock: false },
-                { filename: "نقشـه ایـران.webp", name: "نقشـه ایـران", price: 900000, allowedQuantities: [0, 20, 30, 40, 50, 100, 200, 300, 400, 500], outOfStock: false },
-                { filename: "نقشـه جهـان.webp", name: "نقشـه جهـان" , price: 900000, allowedQuantities: [0, 20, 30, 40, 50, 100, 200, 300, 400, 500], outOfStock: false },
-                { filename: "آناتـومی بـدن انسـان.webp", name: "آناتـومی بـدن انسـان", price: 900000, allowedQuantities: [0, 20, 30, 40, 50, 100, 200, 300, 400, 500], outOfStock: false },
-                { filename: "بـدن من.webp", name: "بـدن من", price: 900000, allowedQuantities: [0, 20, 30, 40, 50, 100, 200, 300, 400, 500], outOfStock: false },
-                { filename: "برنامه هفتگی.webp", name: "برنامه هفتگی", price: 900000, allowedQuantities: [0, 20, 30, 40, 50, 100, 200, 300, 400, 500], outOfStock: false },
-            ]},
-            6: { name: "سایر محصولات", images: [
-                { filename: "دفترچه ای بزرگ ضرب.webp", name: "دفترچه ای بزرگ ضرب", price: 850000, allowedQuantities: [0, 36, 60, 120, 240, 384], outOfStock: false },
-                { filename: "دفترچه ای بزرگ دوستی.webp", name: "دفترچه ای بزرگ دوستی", price: 850000, allowedQuantities: [0, 36, 60, 120, 240, 384], outOfStock: false },
-                { filename: "دفترچه ای کوچک الفبا.webp", name: "دفترچه ای کوچک الفبا", price: 600000, allowedQuantities: [0, 36, 60, 120, 240, 720], outOfStock: false },
-                { filename: "دفترچه ای کوچک دوستی.webp", name: "دفترچه ای کوچک دوستی", price: 600000, allowedQuantities: [0, 36, 60, 120, 240, 720], outOfStock: false },
-                { filename: "فلش کارت اعداد.webp", name: "فلش کارت اعداد", price: 800000, allowedQuantities: [0, 40, 50, 60, 120, 240, 500], outOfStock: false },
-                { filename: "فلش کارت الفبا.webp", name: "فلش کارت الفبا", price: 500000, allowedQuantities: [0, 36, 60, 120, 240, 570], outOfStock: false },
-                { filename: "استیکر A4.webp", name: "استیکر آ۴ ", price: 200000, allowedQuantities: [0, 100, 200, 300, 400, 500, 1200, 2400], outOfStock: false },
-            ]}
-        };
 
         let cart = {};
         let currentScreen = 'home'; 
@@ -1344,10 +1276,7 @@
                         <button onclick="resendOrderFromHistory(${order.id}, 'whatsapp')" class="bg-emerald-500 hover:bg-emerald-600 text-white text-[11px] font-black py-2 rounded-xl border-2 border-black transition active:translate-x-0.5 active:translate-y-0.5 flex items-center justify-center gap-1">
                             <i class="fab fa-whatsapp"></i> ارسال مجدد واتس‌اپ
                         </button>
-                        <button onclick="resendOrderFromHistory(${order.id}, 'eitaa')" class="bg-orange-500 hover:bg-orange-600 text-white text-[11px] font-black py-2 rounded-xl border-2 border-black transition active:translate-x-0.5 active:translate-y-0.5 flex items-center justify-center gap-1">
-                            <i class="fas fa-paper-plane"></i> ارسال مجدد ایتا
-                        </button>
-                    </div>
+                        </div>
                 </div>
             `).join('');
         }
