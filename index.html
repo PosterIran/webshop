@@ -1413,14 +1413,14 @@
         }
 
         function saveCustomerData() {
-            const data = {
-                name: document.getElementById('customerName')?.value || '',
-                phone: document.getElementById('customerPhone')?.value || '',
-                address: document.getElementById('customerAddress')?.value || '',
-                targetPhone: document.getElementById('targetPhone') ? document.getElementById('targetPhone').value : '',
-            };
-            localStorage.setItem('customerInfo', JSON.stringify(data));
-        }
+    const data = {
+        name: document.getElementById('customerName')?.value || '',
+        phone: document.getElementById('customerPhone')?.value || '',
+        address: document.getElementById('customerAddress')?.value || '',
+        targetPhone: document.getElementById('targetPhone')?.value || ''
+    };
+    localStorage.setItem('customerInfo', JSON.stringify(data));
+}
 
         function loadCustomerData() {
     const saved = localStorage.getItem('customerInfo');
@@ -1429,13 +1429,13 @@
         if (data.name && document.getElementById('customerName')) document.getElementById('customerName').value = data.name;
         if (data.phone && document.getElementById('customerPhone')) document.getElementById('customerPhone').value = data.phone;
         if (data.address && document.getElementById('customerAddress')) document.getElementById('customerAddress').value = data.address;
-        if (data.targetPhone && document.getElementById('targetPhone')) document.getElementById('targetPhone').value = data.targetPhone;
     }
+    
     loadCartFromLocalStorage();
     renderHistory();
     updateOnlineStatus();
     
-    // اعمال مجدد پسورد کاربر روی شماره مقصد
+    // اعمال پسورد کاربر لاگین شده روی شماره دریافت‌کننده سفارش
     const loggedInUser = localStorage.getItem('loggedUser');
     if (loggedInUser) {
         applyUserDataToUI(loggedInUser);
@@ -1460,18 +1460,17 @@ function convertPersianToEnglishDigits(str) {
         return arabicDigits.indexOf(w);
     });
 }
-
 // تابع اعمال اطلاعات کاربر روی ظاهر سایت
 function applyUserDataToUI(username) {
     const userObj = validUsers.find(u => u.username.toLowerCase() === username.toLowerCase());
     if (!userObj) return;
-    
+
     // ۱. جایگزینی نام کاربری به جای پوستر ایران در هدر
     const headerTitle = document.getElementById('headerTitle');
     if (headerTitle) {
         headerTitle.innerHTML = `${userObj.username} 🌸`;
     }
-    
+
     // ۲. جایگزینی پسورد به جای شماره پشتیبانی (به صورت فارسی)
     const supportPhone = document.getElementById('supportPhone');
     if (supportPhone) {
@@ -1479,13 +1478,16 @@ function applyUserDataToUI(username) {
         supportPhone.innerText = persianPass;
         supportPhone.href = `tel:${userObj.password}`;
     }
-    
-    // ۳. جایگزینی پسورد به صورت انگلیسی در کادر شماره دریافت‌کننده لیست سفارش
+
+    // ۳. تنظیم پسورد کاربر به عنوان شماره دریافت‌کننده سفارش (به صورت انگلیسی)
     const targetPhoneInput = document.getElementById('targetPhone');
     if (targetPhoneInput) {
-        targetPhoneInput.value = userObj.password; // عدد به صورت انگلیسی
-        saveCustomerData(); // ذخیره در حافظه محلی جهت ثبت سفارشات
+        targetPhoneInput.value = userObj.password;
     }
+    
+    // ذخیره مشخصات مشتری
+    saveCustomerData();
+}
 }
 // ۱. بررسی هوشمند وضعیت ورود و بارگذاری اولیه صفحه
 window.addEventListener('DOMContentLoaded', () => {
