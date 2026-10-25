@@ -16,7 +16,7 @@ const groupInfo = {
         { filename: "ضرب و تقسیم.webp", name: "ضرب و تقسیم", price: 350000, allowedQuantities: [0, 30, 50, 100, 200, 300, 400, 500], outOfStock: false },
         { filename: "ضرب و تمرین ضرب.webp", name: "ضرب و تمرین ضرب", price: 350000, allowedQuantities: [0, 30, 50, 100, 200, 300, 400, 500], outOfStock: false },
         { filename: "اعداد.webp", name: "اعداد ساده", price: 350000, allowedQuantities: [0, 30, 50, 100, 200, 300, 400, 500], outOfStock: false }, 
-        { filename: "اعداد با ساعت و محور.webp", name: " اعداد با ساعت و محور", price: 350000, allowedQuantities: [0, 30, 50, 100, 200, 300, 400, 500], outOfStock: false },
+        { filename: "اعداد با ساعت و محور.webp", name: "اعداد با ساعت‌و‌محور", price: 350000, allowedQuantities: [0, 30, 50, 100, 200, 300, 400, 500], outOfStock: false },
         { filename: "آموزش زمان و ساعت.webp", name: "آموزش زمان و ساعت", price: 350000, allowedQuantities: [0, 30, 50, 100, 200, 300, 400, 500], outOfStock: false },
         { filename: "محیط و مساحت اشکال هندسی.webp", name: "محیط و مساحت اشکال هندسی", price: 350000, allowedQuantities: [0, 30, 50, 100], outOfStock: false },
         { filename: "جدول تقریب اعداد.webp", name: "جدول تقریب اعداد", price: 350000, allowedQuantities: [0, 30, 50, 100, 200, 300, 400, 500], outOfStock: false },
