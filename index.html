@@ -1460,14 +1460,7 @@ function convertPersianToEnglishDigits(str) {
         return arabicDigits.indexOf(w);
     });
 }
-window.addEventListener('DOMContentLoaded', () => {
-    const isLoggedIn = localStorage.getItem('isSiteLoggedIn_v3');
-    const authModal = document.getElementById('authModal');
-    
-    if (isLoggedIn !== 'true') {
-        authModal.classList.remove('hidden'); // اگر لاگین نکرده بود، پنجره را نشان بده
-    }
-});
+
 // تابع اعمال اطلاعات کاربر روی ظاهر سایت
 function applyUserDataToUI(username) {
     const userObj = validUsers.find(u => u.username.toLowerCase() === username.toLowerCase());
@@ -1494,8 +1487,29 @@ function applyUserDataToUI(username) {
         saveCustomerData(); // ذخیره در حافظه محلی جهت ثبت سفارشات
     }
 }
+// ۱. بررسی هوشمند وضعیت ورود و بارگذاری اولیه صفحه
+window.addEventListener('DOMContentLoaded', () => {
+    const loggedInUser = localStorage.getItem('loggedUser');
+    const authModal = document.getElementById('authModal');
+    
+    // بررسی اینکه آیا کاربری که قبلا لاگین کرده هنوز در لیست مجاز وجود دارد یا خیر
+    const isUserStillValid = validUsers.some(u => u.username.toLowerCase() === loggedInUser?.toLowerCase());
+    
+    if (!loggedInUser || !isUserStillValid) {
+        authModal.classList.remove('hidden'); // اگر لاگین نکرده یا کاربر حذف شده، پنجره ورود را نشان بده
+        if (loggedInUser && !isUserStillValid) {
+            localStorage.removeItem('loggedUser');
+        }
+    } else {
+        authModal.classList.add('hidden'); // بستن پنجره ورود
+        applyUserDataToUI(loggedInUser); // اعمال اطلاعات کاربر روی هدر و بخش‌ها
+    }
+    
+    // بارگذاری اطلاعات سبد خرید و مشتری
+    loadCustomerData();
+});
 
-// ۳. پردازش فرم ورود
+// ۲. پردازش فرم ورود
 function handleLogin(event) {
     event.preventDefault();
     
@@ -1506,18 +1520,17 @@ function handleLogin(event) {
     let userFound = validUsers.find(u => u.username.toLowerCase() === inputUser && u.password === inputPass);
     
     if (userFound) {
+        // ذخیره نام کاربری در حافظه مرورگر برای عدم درخواست مجدد در مرتبه‌های بعدی
         localStorage.setItem('loggedUser', userFound.username);
         document.getElementById('authModal').classList.add('hidden');
         errorMsg.classList.add('hidden');
         
-        // اعمال اطلاعات کاربر جدید روی هدر و بخش پشتیبانی
+        // اعمال اطلاعات کاربر روی هدر، پشتیبانی و سبد خرید
         applyUserDataToUI(userFound.username);
     } else {
         errorMsg.classList.remove('hidden');
     }
 }
-
-        window.addEventListener('DOMContentLoaded', loadCustomerData);
     </script>
 </body>
 </html>
