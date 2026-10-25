@@ -1137,7 +1137,7 @@
             const orderDateStr = new Intl.DateTimeFormat('fa-IR-u-nu-latn', { year: 'numeric', month: '2-digit', day: '2-digit' }).format(now);
             const orderTimeStr = now.toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit' });
 
-            let orderText = `🌸 *سفارش جدید - پوستر ایران* 🌸\n\n`;
+            let orderText = `🌸 *سفارش جدید* 🌸\n\n`;
             orderText += `📅 *تاریخ و زمان ثبت:* ${toPersianDigits(orderDateStr)} - ساعت ${toPersianDigits(orderTimeStr)}\n`;
             orderText += `👤 *سفارش‌دهنده:* ${name}\n`;
             orderText += `📞 *شماره تماس:* ${phone}\n`;
@@ -1168,7 +1168,7 @@
             });
 
             orderText += `-----------------------------------\n`;
-            orderText += `✨ با تشکر از انتخاب پوستر ایران!`;
+            orderText += `✅ سفارش شما با موفقیت ثبت شد. در اسرع وقت هماهنگی لازم با شما صورت می‌گیرد.✨`;
 
             saveOrderToHistory(name, phone, address, items);
 
