@@ -1143,61 +1143,62 @@ function submitOrder(platform) {
         if (!groupedForText[item.groupName]) groupedForText[item.groupName] = [];
         groupedForText[item.groupName].push(item);
     });
-    // ثبت در تاریخچه با شماره سفارش یکتا
-const orderNum = getOrderNumber();
-saveOrderToHistory(orderNum);
 
-const now = new Date();
-const orderDateStr = new Intl.DateTimeFormat('fa-IR-u-nu-latn', { year: 'numeric', month: '2-digit', day: '2-digit' }).format(now);
-const orderTimeStr = now.toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit' });
+    // ثبت در تاریخچه با شماره سفارش یکتا و درج شماره در متن
+    const orderNum = getOrderNumber();
+    saveOrderToHistory(orderNum);
 
-let orderText = `🌸 *سفارش جدید* 🌸\n\n`;
-orderText += `📅 *تاریخ و زمان ثبت:* ${toPersianDigits(orderDateStr)} - ساعت ${toPersianDigits(orderTimeStr)}\n`;
-orderText += `👤 *سفارش‌دهنده:* ${name}\n`;
-orderText += `📞 *شماره تماس:* ${phone}\n`;
-orderText += `📍 *آدرس تحویل:* ${address}\n\n`;
-orderText += `📑 *جزئیات اقلام سفارش:* \n`;
-orderText += `-----------------------------------\n`;
+    const now = new Date();
+    const orderDateStr = new Intl.DateTimeFormat('fa-IR-u-nu-latn', { year: 'numeric', month: '2-digit', day: '2-digit' }).format(now);
+    const orderTimeStr = now.toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit' });
 
-let itemCounter = 1;
-Object.keys(groupedForText).forEach(gName => {
-    const list = groupedForText[gName];
-    if (list.length > 0) {
-        orderText += `📌 *[${gName}]*\n`;
-        list.forEach(item => {
-            orderText += `${itemCounter++}. *${item.name}* =  ${toPersianDigits(item.quantity)} عدد\n`;
-        });
-        orderText += `\n`;
-    }
-});
+    let orderText = `🌸 *سفارش جدید شماره #${toPersianDigits(orderNum)}* 🌸\n\n`;
+    orderText += `📅 *تاریخ و زمان ثبت:* ${toPersianDigits(orderDateStr)} - ساعت ${toPersianDigits(orderTimeStr)}\n`;
+    orderText += `👤 *سفارش‌دهنده:* ${name}\n`;
+    orderText += `📞 *شماره تماس:* ${phone}\n`;
+    orderText += `📍 *آدرس تحویل:* ${address}\n\n`;
+    orderText += `📑 *جزئیات اقلام سفارش:* \n`;
+    orderText += `-----------------------------------\n`;
 
-orderText += `-----------------------------------\n`;
-orderText += `📊 *خلاصه کل سفارش به تفکیک دسته:* \n`;
-Object.keys(groupedForText).forEach(gName => {
-    const list = groupedForText[gName];
-    if (list.length > 0) {
-        const totalGroupQty = list.reduce((acc, cur) => acc + cur.quantity, 0);
-        orderText += `▫️ *${gName}:* ${toPersianDigits(totalGroupQty)} عدد (${toPersianDigits(list.length)} عنوان)\n`;
-    }
-});
+    let itemCounter = 1;
+    Object.keys(groupedForText).forEach(gName => {
+        const list = groupedForText[gName];
+        if (list.length > 0) {
+            orderText += `📌 *[${gName}]*\n`;
+            list.forEach(item => {
+                orderText += `${itemCounter++}. *${item.name}* =  ${toPersianDigits(item.quantity)} عدد\n`;
+            });
+            orderText += `\n`;
+        }
+    });
 
-orderText += `-----------------------------------\n`;
-orderText += `✅ سفارش شما با موفقیت ثبت شد. در اسرع وقت هماهنگی لازم با شما صورت می‌گیرد.✨`;
+    orderText += `-----------------------------------\n`;
+    orderText += `📊 *خلاصه کل سفارش به تفکیک دسته:* \n`;
+    Object.keys(groupedForText).forEach(gName => {
+        const list = groupedForText[gName];
+        if (list.length > 0) {
+            const totalGroupQty = list.reduce((acc, cur) => acc + cur.quantity, 0);
+            orderText += `▫️ *${gName}:* ${toPersianDigits(totalGroupQty)} عدد (${toPersianDigits(list.length)} عنوان)\n`;
+        }
+    });
 
-copyTextToClipboard(orderText).then(() => {
-    showToast('📋 متن سفارش با موفقیت کپی شد!', '', 'success');
-});
+    orderText += `-----------------------------------\n`;
+    orderText += `✅ سفارش شما با موفقیت ثبت شد. در اسرع وقت هماهنگی لازم با شما صورت می‌گیرد.✨`;
 
-cart = {};
-saveCartToLocalStorage();
-updateBadge();
+    copyTextToClipboard(orderText).then(() => {
+        showToast('📋 متن سفارش با موفقیت کپی شد!', '', 'success');
+    });
+
+    cart = {};
+    saveCartToLocalStorage();
+    updateBadge();
     
     if (platform === 'copy') {
         updateCartDisplay();
         return;
     }
     
-        // اولویت‌دهی به رمز عبور کاربر لاگین‌شده برای ارسال واتس‌آپ
+    // اولویت‌دهی به رمز عبور کاربر لاگین‌شده برای ارسال واتس‌آپ
     const loggedInUser = localStorage.getItem('loggedUser');
     const userObj = validUsers.find(u => u.username.toLowerCase() === loggedInUser?.toLowerCase());
     let targetNum = userObj ? userObj.password : customTarget;
@@ -1208,7 +1209,6 @@ updateBadge();
     } else if (!cleanNumber.startsWith('98')) {
         cleanNumber = '98' + cleanNumber;
     }
-
     
     const encodedText = encodeURIComponent(orderText);
     
@@ -1228,97 +1228,98 @@ updateBadge();
     updateCartDisplay();
 }
 
+
                 function resendOrderFromHistory(orderId, platform) {
-            // اصلاح کلید ذخیره‌سازی از posterIranHistory به previousOrders
-            const history = JSON.parse(localStorage.getItem('previousOrders') || '[]');
-            const selectedOrder = history.find(order => String(order.id) === String(orderId));
-            
-            if (!selectedOrder || !selectedOrder.items || selectedOrder.items.length === 0) {
-                showToast('❌ اطلاعات سفارش یافت نشد.', '', 'remove');
-                return;
-            }
+    const history = JSON.parse(localStorage.getItem('previousOrders') || '[]');
+    const selectedOrder = history.find(order => String(order.id) === String(orderId));
+    
+    if (!selectedOrder || !selectedOrder.items || selectedOrder.items.length === 0) {
+        showToast('❌ اطلاعات سفارش یافت نشد.', '', 'remove');
+        return;
+    }
 
-            // اولویت‌دهی به رمز عبور کاربر لاگین‌شده برای شماره مقصد واتس‌آپ
-            const loggedInUser = localStorage.getItem('loggedUser');
-            const userObj = validUsers.find(u => u.username.toLowerCase() === loggedInUser?.toLowerCase());
-            
-            const customerInfo = JSON.parse(localStorage.getItem('customer_info') || '{}');
-            let targetPhone = userObj ? userObj.password : (customerInfo.targetPhone || selectedOrder.phone || '');
+    // اولویت‌دهی به رمز عبور کاربر لاگین‌شده برای شماره مقصد واتس‌آپ
+    const loggedInUser = localStorage.getItem('loggedUser');
+    const userObj = validUsers.find(u => u.username.toLowerCase() === loggedInUser?.toLowerCase());
+    
+    const customerInfo = JSON.parse(localStorage.getItem('customer_info') || '{}');
+    let targetPhone = userObj ? userObj.password : (customerInfo.targetPhone || selectedOrder.phone || '');
 
-            if ((platform === 'whatsapp' || platform === 'eitaa') && !targetPhone) {
-                showToast('⚠️ لطفا ابتدا شماره مقصد را در صفحه سبد خرید وارد کنید.', '', 'remove');
-                showScreen('cart');
-                return;
-            }
+    if ((platform === 'whatsapp' || platform === 'eitaa') && !targetPhone) {
+        showToast('⚠️ لطفا ابتدا شماره مقصد را در صفحه سبد خرید وارد کنید.', '', 'remove');
+        showScreen('cart');
+        return;
+    }
 
-            const groupOrder = [1, 2, 4, 5, 6];
-            const groupedForText = {};
-            groupOrder.forEach(gid => {
-                const gName = groupInfo[gid]?.name;
-                if (gName) groupedForText[gName] = [];
+    const groupOrder = [1, 2, 4, 5, 6];
+    const groupedForText = {};
+    groupOrder.forEach(gid => {
+        const gName = groupInfo[gid]?.name;
+        if (gName) groupedForText[gName] = [];
+    });
+    selectedOrder.items.forEach(item => {
+        if (!groupedForText[item.groupName]) groupedForText[item.groupName] = [];
+        groupedForText[item.groupName].push(item);
+    });
+
+    // محاسبه تاریخ و زمان ارسال جدید
+    const now = new Date();
+    const resendDateStr = new Intl.DateTimeFormat('fa-IR-u-nu-latn', { year: 'numeric', month: '2-digit', day: '2-digit' }).format(now);
+    const resendTimeStr = now.toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit' });
+
+    let orderText = `🌸 *ارسال مجدد سفارش شماره #${toPersianDigits(selectedOrder.id)}* 🌸\n\n`;
+    orderText += `📅 *تاریخ ثبت اولیه:* ${toPersianDigits(selectedOrder.date)}\n`;
+    orderText += `🔄 *تاریخ و زمان ارسال مجدد:* ${toPersianDigits(resendDateStr)} - ساعت ${toPersianDigits(resendTimeStr)}\n`;
+    orderText += `👤 *سفارش‌دهنده:* ${selectedOrder.name || customerInfo.name || 'نامشخص'}\n`;
+    orderText += `📞 *شماره تماس:* ${selectedOrder.phone || customerInfo.phone || 'نامشخص'}\n`;
+    orderText += `📍 *آدرس تحویل:* ${selectedOrder.address || customerInfo.address || 'نامشخص'}\n\n`;
+    orderText += `📑 *جزئیات اقلام سفارش:* \n`;
+    orderText += `-----------------------------------\n`;
+
+    let itemCounter = 1;
+    Object.keys(groupedForText).forEach(gName => {
+        const list = groupedForText[gName];
+        if (list.length > 0) {
+            orderText += `📌 *[${gName}]*\n`;
+            list.forEach(item => {
+                orderText += `${itemCounter++}. *${item.name}* = ${toPersianDigits(item.quantity)} عدد\n`;
             });
-            selectedOrder.items.forEach(item => {
-                if (!groupedForText[item.groupName]) groupedForText[item.groupName] = [];
-                groupedForText[item.groupName].push(item);
-            });
-
-            // محاسبه تاریخ و زمان ارسال جدید
-            const now = new Date();
-            const resendDateStr = new Intl.DateTimeFormat('fa-IR-u-nu-latn', { year: 'numeric', month: '2-digit', day: '2-digit' }).format(now);
-            const resendTimeStr = now.toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit' });
-
-            let orderText = `🌸 *ارسال مجدد سفارش شماره #${toPersianDigits(selectedOrder.id)}* 🌸\n\n`;`;
-            orderText += `📅 *تاریخ ثبت اولیه:* ${toPersianDigits(selectedOrder.date)}\n`;
-            orderText += `🔄 *تاریخ و زمان ارسال مجدد:* ${toPersianDigits(resendDateStr)} - ساعت ${toPersianDigits(resendTimeStr)}\n`;
-            orderText += `👤 *سفارش‌دهنده:* ${selectedOrder.name || customerInfo.name || 'نامشخص'}\n`;
-            orderText += `📞 *شماره تماس:* ${selectedOrder.phone || customerInfo.phone || 'نامشخص'}\n`;
-            orderText += `📍 *آدرس تحویل:* ${selectedOrder.address || customerInfo.address || 'نامشخص'}\n\n`;
-            orderText += `📑 *جزئیات اقلام سفارش:* \n`;
-            orderText += `-----------------------------------\n`;
-
-            let itemCounter = 1;
-            Object.keys(groupedForText).forEach(gName => {
-                const list = groupedForText[gName];
-                if (list.length > 0) {
-                    orderText += `📌 *[${gName}]*\n`;
-                    list.forEach(item => {
-                        orderText += `${itemCounter++}. *${item.name}* = ${toPersianDigits(item.quantity)} عدد\n`;
-                    });
-                    orderText += `\n`;
-                }
-            });
-
-            orderText += `-----------------------------------\n`;
-            orderText += `✨ ✅ سفارش شما با موفقیت ثبت شد. در اسرع وقت هماهنگی لازم با شما صورت می‌گیرد.✨`;
-
-            copyTextToClipboard(orderText).then(() => {
-                showToast('📋 متن سفارش جهت ارسال مجدد کپی شد!', '', 'success');
-            });
-
-            if (platform === 'copy') return;
-
-            let cleanNumber = targetPhone.replace(/\D/g, '');
-            if (cleanNumber.startsWith('0')) {
-                cleanNumber = '98' + cleanNumber.substring(1);
-            } else if (!cleanNumber.startsWith('98')) {
-                cleanNumber = '98' + cleanNumber;
-            }
-
-            const encodedText = encodeURIComponent(orderText);
-
-            if (platform === 'whatsapp') {
-                window.open(`https://api.whatsapp.com/send?phone=${cleanNumber}&text=${encodedText}`, '_blank');
-            } else if (platform === 'eitaa') {
-                const eitaaAppUrl = `eitaa://share?text=${encodedText}`;
-                const eitaaWebUrl = `https://eitaa.com/share?text=${encodedText}`;
-
-                window.location.href = eitaaAppUrl;
-
-                setTimeout(() => {
-                    window.open(eitaaWebUrl, '_blank');
-                }, 500);
-            }
+            orderText += `\n`;
         }
+    });
+
+    orderText += `-----------------------------------\n`;
+    orderText += `✨ سفارش شما با موفقیت ثبت شد. در اسرع وقت هماهنگی لازم با شما صورت می‌گیرد.✨`;
+
+    copyTextToClipboard(orderText).then(() => {
+        showToast('📋 متن سفارش جهت ارسال مجدد کپی شد!', '', 'success');
+    });
+
+    if (platform === 'copy') return;
+
+    let cleanNumber = targetPhone.replace(/\D/g, '');
+    if (cleanNumber.startsWith('0')) {
+        cleanNumber = '98' + cleanNumber.substring(1);
+    } else if (!cleanNumber.startsWith('98')) {
+        cleanNumber = '98' + cleanNumber;
+    }
+
+    const encodedText = encodeURIComponent(orderText);
+
+    if (platform === 'whatsapp') {
+        window.open(`https://api.whatsapp.com/send?phone=${cleanNumber}&text=${encodedText}`, '_blank');
+    } else if (platform === 'eitaa') {
+        const eitaaAppUrl = `eitaa://share?text=${encodedText}`;
+        const eitaaWebUrl = `https://eitaa.com/share?text=${encodedText}`;
+
+        window.location.href = eitaaAppUrl;
+
+        setTimeout(() => {
+            window.open(eitaaWebUrl, '_blank');
+        }, 500);
+    }
+}
+
 
 
         
