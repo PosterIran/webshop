@@ -998,7 +998,7 @@
                     htmlContent += `
                         <div class="bg-pink-50/70 border-2 border-black rounded-2xl p-4">
                             <div class="flex items-center gap-2 mb-3 pb-2 border-b-2 border-pink-200">
-                                <span class="text-pink-600 font-black text-xs">🌸 ${groupName}</span>
+                                <span class="text-pink-600 font-black text-xs"> ${groupName}</span>
                             </div>
                             <div class="space-y-2">
                     `;
@@ -1267,7 +1267,7 @@ updateBadge();
             const resendDateStr = new Intl.DateTimeFormat('fa-IR-u-nu-latn', { year: 'numeric', month: '2-digit', day: '2-digit' }).format(now);
             const resendTimeStr = now.toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit' });
 
-            let orderText = `🌸 *ارسال مجدد سفارش شماره #${toPersianDigits(selectedOrder.id)}* 🌸\n\n`;
+            let orderText = `🌸 *ارسال مجدد سفارش شماره #${toPersianDigits(selectedOrder.id)}* 🌸\n\n`;`;
             orderText += `📅 *تاریخ ثبت اولیه:* ${toPersianDigits(selectedOrder.date)}\n`;
             orderText += `🔄 *تاریخ و زمان ارسال مجدد:* ${toPersianDigits(resendDateStr)} - ساعت ${toPersianDigits(resendTimeStr)}\n`;
             orderText += `👤 *سفارش‌دهنده:* ${selectedOrder.name || customerInfo.name || 'نامشخص'}\n`;
@@ -1289,7 +1289,7 @@ updateBadge();
             });
 
             orderText += `-----------------------------------\n`;
-            orderText += `✨ با تشکر از انتخاب پوستر ایران!`;
+            orderText += `✨ ✅ سفارش شما با موفقیت ثبت شد. در اسرع وقت هماهنگی لازم با شما صورت می‌گیرد.✨`;
 
             copyTextToClipboard(orderText).then(() => {
                 showToast('📋 متن سفارش جهت ارسال مجدد کپی شد!', '', 'success');
@@ -1351,45 +1351,43 @@ updateBadge();
             showToast('🗑️ سفارش مورد نظر حذف شد.', '', 'remove');
         }
         
-        /* =========================================================
-   سیستم هوشمند مدیریت اطلاعات مشتری و تاریخچه سفارشات
+/* =========================================================
+   سیستم ذخیره و بازخوانی پایدار مشخصات سفارش‌دهنده
    ========================================================= */
 
 function saveCustomerData() {
-    const customerData = {
-        name: document.getElementById('customerName')?.value || '',
-        phone: document.getElementById('customerPhone')?.value || '',
-        address: document.getElementById('customerAddress')?.value || '',
-        targetPhone: document.getElementById('targetPhone')?.value || ''
-    };
-    localStorage.setItem('customer_info', JSON.stringify(customerData));
+  const customerData = {
+    name: document.getElementById('customerName')?.value || '',
+    phone: document.getElementById('customerPhone')?.value || '',
+    address: document.getElementById('customerAddress')?.value || '',
+    targetPhone: document.getElementById('targetPhone')?.value || ''
+  };
+  localStorage.setItem('customer_info', JSON.stringify(customerData));
 }
 
 function loadCustomerData() {
-    const savedData = localStorage.getItem('customer_info');
-    if (savedData) {
-        try {
-            const data = JSON.parse(savedData);
-            if (data.name && document.getElementById('customerName')) {
-                document.getElementById('customerName').value = data.name;
-            }
-            if (data.phone && document.getElementById('customerPhone')) {
-                document.getElementById('customerPhone').value = data.phone;
-            }
-            if (data.address && document.getElementById('customerAddress')) {
-                document.getElementById('customerAddress').value = data.address;
-            }
-            if (data.targetPhone && document.getElementById('targetPhone')) {
-                document.getElementById('targetPhone').value = data.targetPhone;
-            }
-        } catch (e) {
-            console.error('خطا در بارگذاری اطلاعات مشتری:', e);
-        }
+  const savedData = localStorage.getItem('customer_info');
+  if (savedData) {
+    try {
+      const data = JSON.parse(savedData);
+      // بازگردانی مشخصات فردی (این مقادیر با آپدیت یا تغییر پسورد پاک نمی‌شوند)
+      if (data.name && document.getElementById('customerName')) {
+        document.getElementById('customerName').value = data.name;
+      }
+      if (data.phone && document.getElementById('customerPhone')) {
+        document.getElementById('customerPhone').value = data.phone;
+      }
+      if (data.address && document.getElementById('customerAddress')) {
+        document.getElementById('customerAddress').value = data.address;
+      }
+    } catch (e) {
+      console.error('خطا در بارگذاری اطلاعات مشتری:', e);
     }
-    
-    loadCartFromLocalStorage();
-    renderHistory();
-    updateOnlineStatus();
+  }
+  
+  loadCartFromLocalStorage();
+  renderHistory();
+  updateOnlineStatus();
 }
 
 function getOrderNumber() {
@@ -1669,26 +1667,29 @@ function applyUserDataToUI(username) {
 
 // بررسی هوشمند وضعیت ورود و اعتبار سنجی رمز عبور کاربر
 window.addEventListener('DOMContentLoaded', () => {
-    const loggedInUser = localStorage.getItem('loggedUser');
-    const loggedInPass = localStorage.getItem('loggedPass');
-    const authModal = document.getElementById('authModal');
-    
-    // چک کردن اعتبار دقیق نام کاربری و رمز عبور با کاتالوگ کاربران مجاز
-    const isUserStillValid = validUsers.some(u => 
-        u.username.toLowerCase() === loggedInUser?.toLowerCase() && u.password === loggedInPass
-    );
-    
-    if (!loggedInUser || !isUserStillValid) {
-        // اگر نام کاربری یا رمز عبور تغییر یافته یا حذف شده باشد، فقط دسترسی همین کاربر لغو می‌شود
-        localStorage.removeItem('loggedUser');
-        localStorage.removeItem('loggedPass');
-        authModal.classList.remove('hidden'); // نمایش فرم ورود
-    } else {
-        authModal.classList.add('hidden'); // ورود خودکار بدون نیاز به تایپ مجدد
-        applyUserDataToUI(loggedInUser);
-    }
-    
-    loadCustomerData();
+  // 1. بررسی وضعیت لاگین و امنیت کاربر
+  const loggedInUser = localStorage.getItem('loggedUser');
+  const loggedInPass = localStorage.getItem('loggedPass');
+  const authModal = document.getElementById('authModal');
+  
+  const isUserStillValid = validUsers.some(u =>
+    u.username.toLowerCase() === loggedInUser?.toLowerCase() && u.password === loggedInPass
+  );
+  
+  if (!loggedInUser || !isUserStillValid) {
+    localStorage.removeItem('loggedUser');
+    localStorage.removeItem('loggedPass');
+    authModal.classList.remove('hidden');
+  } else {
+    authModal.classList.add('hidden');
+    applyUserDataToUI(loggedInUser); // تنظیم هدر و شماره مقصد بر اساس رمز جدید
+  }
+  
+  // 2. بازیابی همیشگی مشخصات نام، تلفن و آدرس مشتری از حافظه پایدار
+  loadCustomerData();
+  loadCartFromLocalStorage();
+  renderHistory();
+  updateOnlineStatus();
 });
 
 // پردازش فرم ورود و ذخیره نام کاربری و رمز عبور
