@@ -1665,32 +1665,31 @@ function applyUserDataToUI(username) {
     }
 }
 
-
-// بررسی هوشمند وضعیت ورود و اعتبار سنجی رمز عبور کاربر
+// بررسی هوشمند وضعیت ورود و بارگذاری پایدار مشخصات مشتری
 window.addEventListener('DOMContentLoaded', () => {
-  // 1. بررسی وضعیت لاگین و امنیت کاربر
-  const loggedInUser = localStorage.getItem('loggedUser');
-  const loggedInPass = localStorage.getItem('loggedPass');
-  const authModal = document.getElementById('authModal');
-  
-  const isUserStillValid = validUsers.some(u =>
-    u.username.toLowerCase() === loggedInUser?.toLowerCase() && u.password === loggedInPass
-  );
-  
-  if (!loggedInUser || !isUserStillValid) {
-    localStorage.removeItem('loggedUser');
-    localStorage.removeItem('loggedPass');
-    authModal.classList.remove('hidden');
-  } else {
-    authModal.classList.add('hidden');
-    applyUserDataToUI(loggedInUser); // تنظیم هدر و شماره مقصد بر اساس رمز جدید
-  }
-  
-  // 2. بازیابی همیشگی مشخصات نام، تلفن و آدرس مشتری از حافظه پایدار
-  loadCustomerData();
-  loadCartFromLocalStorage();
-  renderHistory();
-  updateOnlineStatus();
+    // 1. بررسی وضعیت لاگین و امنیت کاربر
+    const loggedInUser = localStorage.getItem('loggedUser');
+    const loggedInPass = localStorage.getItem('loggedPass');
+    const authModal = document.getElementById('authModal');
+    
+    const isUserStillValid = validUsers.some(u => 
+        u.username.toLowerCase() === loggedInUser?.toLowerCase() && u.password === loggedInPass
+    );
+    
+    if (!loggedInUser || !isUserStillValid) {
+        localStorage.removeItem('loggedUser');
+        localStorage.removeItem('loggedPass');
+        if (authModal) authModal.classList.remove('hidden');
+    } else {
+        if (authModal) authModal.classList.add('hidden');
+        applyUserDataToUI(loggedInUser); // تنظیم هدر و شماره مقصد
+    }
+    
+    // 2. بازیابی دقیق و پایدار مشخصات نام، تلفن و آدرس مشتری از حافظه
+    loadCustomerData();
+    loadCartFromLocalStorage();
+    renderHistory();
+    updateOnlineStatus();
 });
 
 // پردازش فرم ورود و ذخیره نام کاربری و رمز عبور
