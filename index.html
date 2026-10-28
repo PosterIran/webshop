@@ -781,21 +781,29 @@
         const originalSrc = getOriginalUrl(info.name, img.filename);
         
         box.innerHTML = `
-                    <div class="w-full h-32 mb-2 rounded-xl bg-pink-50 border-2 border-black flex items-center justify-center overflow-hidden cursor-pointer relative" 
-                         onclick="openModal('${originalSrc}')">
-                        <img src="${thumbSrc}" class="w-full h-full object-contain" onerror="this.onerror=null; this.src='${originalSrc}';">
-                        ${isOutOfStock ? `<span class="absolute bg-red-600 text-white text-[9px] font-black px-2 py-0.5 rounded-full border border-black">ناموجود</span>` : ''}
+            <div class="w-full h-32 mb-2 rounded-xl bg-pink-50 border-2 border-black flex items-center justify-center overflow-hidden cursor-pointer relative" 
+                 onclick="openModal('${originalSrc}')">
+                <img src="${thumbSrc}" class="w-full h-full object-contain" onerror="this.onerror=null; this.src='${originalSrc}';">
+                ${isOutOfStock ? `<span class="absolute bg-red-600 text-white text-[9px] font-black px-2 py-0.5 rounded-full border border-black">ناموجود</span>` : ''}
+            </div>
+            <h4 class="font-black text-xs text-center h-8 overflow-hidden mb-2 text-purple-950">${img.name}</h4>
+            
+            <div class="w-full mt-auto pt-2 border-t border-gray-200">
+                ${!isOutOfStock ? `
+                    <div class="flex items-center gap-1.5">
+                        <span class="text-[11px] font-black text-purple-950 whitespace-nowrap">تعداد:</span>
+                        <select onchange="addToCart('${img.filename}', '${img.name}', parseInt(this.value), '${info.name}', this)" 
+                                class="w-full text-xs font-black text-purple-900 bg-pink-100 border border-black rounded-lg p-1.5 outline-none cursor-pointer">
+                            ${optionsHtml}
+                        </select>
                     </div>
-                    <h4 class="font-black text-xs text-center h-8 overflow-hidden mb-2 text-purple-950">${img.name}</h4>
-                    ${!isOutOfStock ? `
-                        <div class="w-full mt-auto pt-2 border-t border-gray-200">
-                            <select onchange="addToCart('${img.filename}', '${img.name}', parseInt(this.value), '${info.name}', this)" 
-                                    class="w-full text-xs font-black text-purple-900 bg-pink-100 border border-black rounded-lg p-1.5 outline-none cursor-pointer">
-                                ${optionsHtml}
-                            </select>
-                        </div>
-                    ` : ''}
-                `;
+                ` : `
+                    <div class="w-full text-center py-1.5 bg-red-100 border border-black rounded-lg text-red-600 text-xs font-black">
+                        موقتاً ناموجود
+                    </div>
+                `}
+            </div>
+        `;
         container.appendChild(box);
     });
     
@@ -804,6 +812,7 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 }
+
 
         function addToCart(filename, name, qty, groupName, selectElem = null) {
             const productId = groupName + "_" + filename;
@@ -1152,11 +1161,11 @@ function submitOrder(platform) {
     const orderDateStr = new Intl.DateTimeFormat('fa-IR-u-nu-latn', { year: 'numeric', month: '2-digit', day: '2-digit' }).format(now);
     const orderTimeStr = now.toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit' });
 
-    let orderText = `🌸 *سفارش جدید شماره #${toPersianDigits(orderNum)}* 🌸\n\n`;
-    orderText += `📅 *تاریخ و زمان ثبت:* ${toPersianDigits(orderDateStr)} - ساعت ${toPersianDigits(orderTimeStr)}\n`;
-    orderText += `👤 *سفارش‌دهنده:* ${name}\n`;
+    let orderText = `🌸 *سفارش جدید _ شماره ${toPersianDigits(orderNum)}* 🌸\n\n`;
+    orderText += `📅 *تاریخ :* ${toPersianDigits(orderDateStr)} *- ساعت* ${toPersianDigits(orderTimeStr)}\n`;
+    orderText += `📍 *آدرس:* ${address}\n\n`;
+    orderText += `👤  ${name}\n`;
     orderText += `📞 *شماره تماس:* ${phone}\n`;
-    orderText += `📍 *آدرس تحویل:* ${address}\n\n`;
     orderText += `📑 *جزئیات اقلام سفارش:* \n`;
     orderText += `-----------------------------------\n`;
 
@@ -1600,13 +1609,13 @@ function clearAllHistory() {
 
 // لیست کاربران مجاز (نام کاربری و رمز عبور/شماره تماس)
 const validUsers = [
-    { username: "پوستر ایران", password: "09010195885" },
-    { username: "پوسترایران", password: "09010195885" },
-    { username: "PosterIran", password: "09010195885" },
-    { username: "Pixel", password: "09010195885" },
-    { username: "Selina", password: "09010195885" },
-    { username: "بازتاب دانش", password: "09010195885" },
-    { username: "Admin", password: "09010195885" }
+    { username: "پوستر ایران", password: "09125956975" },
+    { username: "پوسترایران", password: "09125956975" },
+    { username: "PosterIran", password: "09125956975" },
+    { username: "Pixel", password: "09125956975" },
+    { username: "Selina", password: "09125956975" },
+    { username: "بازتاب دانش", password: "09125956975" },
+    { username: "Admin", password: "09125956975" }
 ];
 
 // تابع تبدیل اعداد فارسی به انگلیسی
