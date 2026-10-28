@@ -263,7 +263,7 @@
         <div class="w-16 h-16 bg-pink-100 text-pink-600 rounded-full border-2 border-black flex items-center justify-center text-2xl mx-auto mb-4">
             🔒
         </div>
-        <h2 class="text-xl font-black text-purple-950 mb-2">ورود به پوستر ایران</h2>
+        <h2 class="text-xl font-black text-purple-950 mb-2">ورود به دنیای رنگی آموزش</h2>
         <p class="text-xs font-bold text-gray-600 mb-6">لطفاً نام کاربری و رمز عبور خود را وارد کنید.</p>
         
         <form onsubmit="handleLogin(event)" class="space-y-4 text-right">
@@ -271,10 +271,16 @@
                 <label class="block text-xs font-black text-pink-600 mb-1">نام کاربری:</label>
                 <input type="text" id="authUsername" required placeholder="مثال: pixel" class="w-full p-3 rounded-xl border-2 border-black outline-none font-bold text-xs bg-pink-50">
             </div>
-            <div>
-                <label class="block text-xs font-black text-pink-600 mb-1">رمز عبور:</label>
-                <input type="password" id="authPassword" required placeholder="رمز عبور" class="w-full p-3 rounded-xl border-2 border-black outline-none font-bold text-xs bg-pink-50">
-            </div>
+            <div class="relative">
+    <label class="block text-xs font-black text-pink-600 mb-1">رمز عبور:</label>
+    <div class="relative">
+        <input type="password" id="authPassword" required placeholder="رمز عبور" class="w-full p-3 pl-10 rounded-xl border-2 border-black outline-none font-bold text-xs bg-pink-50">
+        <button type="button" onclick="togglePasswordVisibility()" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-pink-600 text-sm focus:outline-none">
+            <i id="eyeIcon" class="fas fa-eye"></i>
+        </button>
+    </div>
+</div>
+
             <div id="authError" class="text-red-600 text-[11px] font-black text-center hidden">نام کاربری یا رمز عبور اشتباه است!</div>
             <button type="submit" class="w-full bg-pink-600 hover:bg-pink-700 text-white font-black py-3 rounded-xl border-2 border-black transition-all text-xs mt-2">
                 ورود به سایت 🌸
@@ -327,7 +333,7 @@
     <img src="https://PosterIran.github.io/pixel/icons/logo.png" alt="Logo" class="logo-img" width="42" height="42">
     <div class="flex flex-col">
         <!-- اضافه شدن id به این خط -->
-        <span id="headerTitle" class="text-xl font-black text-pink-600 tracking-wider">پوستر ایران 🌸</span>
+        <span id="headerTitle" class="text-xl font-black text-pink-600 tracking-wider">پوستر ایران</span>
         <span class="text-[9px] font-bold text-purple-600 -mt-1">دنیای جذاب آموزش</span>
     </div>
 </div>
@@ -1054,20 +1060,24 @@
             document.getElementById('imageModal').classList.add('hidden');
         }
 
-        /* به‌روزرسانی تاریخ و ساعت زنده */
-        function updateDateTime() {
-            const now = new Date();
-            const dateStr = new Intl.DateTimeFormat('fa-IR-u-nu-latn', { year: 'numeric', month: '2-digit', day: '2-digit' }).format(now);
-            const timeStr = now.toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-            
-            const headerDateEl = document.getElementById('headerDate');
-            const headerDayTimeEl = document.getElementById('headerDayTime');
-
-            if (headerDateEl) headerDateEl.innerText = toPersianDigits(dateStr);
-            if (headerDayTimeEl) headerDayTimeEl.innerText = toPersianDigits(timeStr);
-        }
-        setInterval(updateDateTime, 1000);
-        updateDateTime();
+        // آپدیت زنده ساعت و تاریخ
+function updateDateTime() {
+    const now = new Date();
+    const dayNames = ['یکشنبه', 'دوشنبه', 'سه‌شنبه', 'چهارشنبه', 'پنج‌شنبه', 'جمعه', 'شنبه'];
+    const dayName = dayNames[now.getDay()];
+    const timeStr = now.toLocaleTimeString('fa-IR', {
+        hour: '2-digit',
+        minute: '2-digit'
+    });
+    const dateStr = now.toLocaleDateString('fa-IR');
+    
+    const dayTimeEl = document.getElementById('headerDayTime');
+    const dateEl = document.getElementById('headerDate');
+    
+    if (dayTimeEl) dayTimeEl.innerText = `${dayName} ${timeStr}`;
+    if (dateEl) dateEl.innerText = dateStr;
+}
+setInterval(updateDateTime, 1000);
 
         function clearCart() {
             cart = {};
@@ -1187,13 +1197,18 @@ updateBadge();
         return;
     }
     
-    let rawNumber = customTarget;
-    let cleanNumber = rawNumber.replace(/\D/g, '');
+        // اولویت‌دهی به رمز عبور کاربر لاگین‌شده برای ارسال واتس‌آپ
+    const loggedInUser = localStorage.getItem('loggedUser');
+    const userObj = validUsers.find(u => u.username.toLowerCase() === loggedInUser?.toLowerCase());
+    let targetNum = userObj ? userObj.password : customTarget;
+
+    let cleanNumber = targetNum.replace(/\D/g, '');
     if (cleanNumber.startsWith('0')) {
         cleanNumber = '98' + cleanNumber.substring(1);
     } else if (!cleanNumber.startsWith('98')) {
         cleanNumber = '98' + cleanNumber;
     }
+
     
     const encodedText = encodeURIComponent(orderText);
     
@@ -1213,17 +1228,22 @@ updateBadge();
     updateCartDisplay();
 }
 
-        function resendOrderFromHistory(orderId, platform) {
-            const history = JSON.parse(localStorage.getItem('posterIranHistory') || '[]');
-            const selectedOrder = history.find(order => order.id === orderId);
+                function resendOrderFromHistory(orderId, platform) {
+            // اصلاح کلید ذخیره‌سازی از posterIranHistory به previousOrders
+            const history = JSON.parse(localStorage.getItem('previousOrders') || '[]');
+            const selectedOrder = history.find(order => String(order.id) === String(orderId));
             
             if (!selectedOrder || !selectedOrder.items || selectedOrder.items.length === 0) {
                 showToast('❌ اطلاعات سفارش یافت نشد.', '', 'remove');
                 return;
             }
 
-            const customerInfo = JSON.parse(localStorage.getItem('customerInfo') || '{}');
-            const targetPhone = customerInfo.targetPhone || '';
+            // اولویت‌دهی به رمز عبور کاربر لاگین‌شده برای شماره مقصد واتس‌آپ
+            const loggedInUser = localStorage.getItem('loggedUser');
+            const userObj = validUsers.find(u => u.username.toLowerCase() === loggedInUser?.toLowerCase());
+            
+            const customerInfo = JSON.parse(localStorage.getItem('customer_info') || '{}');
+            let targetPhone = userObj ? userObj.password : (customerInfo.targetPhone || selectedOrder.phone || '');
 
             if ((platform === 'whatsapp' || platform === 'eitaa') && !targetPhone) {
                 showToast('⚠️ لطفا ابتدا شماره مقصد را در صفحه سبد خرید وارد کنید.', '', 'remove');
@@ -1247,12 +1267,12 @@ updateBadge();
             const resendDateStr = new Intl.DateTimeFormat('fa-IR-u-nu-latn', { year: 'numeric', month: '2-digit', day: '2-digit' }).format(now);
             const resendTimeStr = now.toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit' });
 
-            let orderText = `🌸 *ارسال مجدد سفارش - پوستر ایران* 🌸\n\n`;
+            let orderText = `🌸 *ارسال مجدد سفارش شماره #${toPersianDigits(selectedOrder.id)}* 🌸\n\n`;
             orderText += `📅 *تاریخ ثبت اولیه:* ${toPersianDigits(selectedOrder.date)}\n`;
             orderText += `🔄 *تاریخ و زمان ارسال مجدد:* ${toPersianDigits(resendDateStr)} - ساعت ${toPersianDigits(resendTimeStr)}\n`;
-            orderText += `📍 *آدرس تحویل:* ${selectedOrder.address || customerInfo.address || 'نامشخص'}\n\n`;
             orderText += `👤 *سفارش‌دهنده:* ${selectedOrder.name || customerInfo.name || 'نامشخص'}\n`;
             orderText += `📞 *شماره تماس:* ${selectedOrder.phone || customerInfo.phone || 'نامشخص'}\n`;
+            orderText += `📍 *آدرس تحویل:* ${selectedOrder.address || customerInfo.address || 'نامشخص'}\n\n`;
             orderText += `📑 *جزئیات اقلام سفارش:* \n`;
             orderText += `-----------------------------------\n`;
 
@@ -1262,7 +1282,7 @@ updateBadge();
                 if (list.length > 0) {
                     orderText += `📌 *[${gName}]*\n`;
                     list.forEach(item => {
-                        orderText += `${itemCounter++}. *${item.name}* -> ${toPersianDigits(item.quantity)} عدد\n`;
+                        orderText += `${itemCounter++}. *${item.name}* = ${toPersianDigits(item.quantity)} عدد\n`;
                     });
                     orderText += `\n`;
                 }
@@ -1300,6 +1320,7 @@ updateBadge();
             }
         }
 
+
         
 
         function reorderFromHistory(orderId) {
@@ -1329,7 +1350,7 @@ updateBadge();
             renderHistory();
             showToast('🗑️ سفارش مورد نظر حذف شد.', '', 'remove');
         }
-
+        
         /* =========================================================
    سیستم هوشمند مدیریت اطلاعات مشتری و تاریخچه سفارشات
    ========================================================= */
@@ -1349,22 +1370,26 @@ function loadCustomerData() {
     if (savedData) {
         try {
             const data = JSON.parse(savedData);
-            if (document.getElementById('customerName')) document.getElementById('customerName').value = data.name || '';
-            if (document.getElementById('customerPhone')) document.getElementById('customerPhone').value = data.phone || '';
-            if (document.getElementById('customerAddress')) document.getElementById('customerAddress').value = data.address || '';
-            if (document.getElementById('targetPhone')) document.getElementById('targetPhone').value = data.targetPhone || '';
+            if (data.name && document.getElementById('customerName')) {
+                document.getElementById('customerName').value = data.name;
+            }
+            if (data.phone && document.getElementById('customerPhone')) {
+                document.getElementById('customerPhone').value = data.phone;
+            }
+            if (data.address && document.getElementById('customerAddress')) {
+                document.getElementById('customerAddress').value = data.address;
+            }
+            if (data.targetPhone && document.getElementById('targetPhone')) {
+                document.getElementById('targetPhone').value = data.targetPhone;
+            }
         } catch (e) {
             console.error('خطا در بارگذاری اطلاعات مشتری:', e);
         }
     }
+    
     loadCartFromLocalStorage();
     renderHistory();
     updateOnlineStatus();
-    
-    const loggedInUser = localStorage.getItem('loggedUser');
-    if (loggedInUser) {
-        applyUserDataToUI(loggedInUser);
-    }
 }
 
 function getOrderNumber() {
@@ -1457,10 +1482,6 @@ function repairOrderHistory() {
         console.error('خطا در اصلاح تاریخچه سفارش‌ها:', error);
     }
 }
-
-/* =========================================================
-   سیستم هماهنگ‌شده تاریخچه سفارشات و شماره‌گذاری صعودی
-   ========================================================= */
 
 function saveOrderToHistory(orderId) {
     const items = Object.values(cart);
@@ -1574,24 +1595,19 @@ function clearAllHistory() {
     renderHistory();
     showToast('🗑️ کل تاریخچه سفارشات پاک‌سازی شد.', '', 'remove');
 }
+/* =========================================================
+   سیستم مدیریت هوشمند احراز هویت و دسترسی کاربران
+   ========================================================= */
 
-    // اعمال پسورد کاربر لاگین شده روی شماره دریافت‌کننده سفارش
-    const loggedInUser = localStorage.getItem('loggedUser');
-    if (loggedInUser) {
-        applyUserDataToUI(loggedInUser);
-    }
-
-        // لیست کاربران مجاز (می‌توانید چندین نام کاربری و پسورد دیگر هم به این لیست اضافه کنید)
-/// ۱. لیست کاربران مجاز (نام کاربری و رمز عبور/شماره تماس)
+// لیست کاربران مجاز (نام کاربری و رمز عبور/شماره تماس)
 const validUsers = [
-    { username: "پوستر ایران", password: "09122487316" },
-    { username: "پوسترایران", password: "09122487316" },
-    { username: "PosterIran", password: "09010195885" },
+    { username: "پوستر ایران", password: "09010195885" },
+    { username: "پوسترایران", password: "09010195885" },
     { username: "PosterIran", password: "09010195885" },
     { username: "Pixel", password: "09010195885" },
-    { username: "Selina", password: "09128386208" },
-    { username: "بازتاب دانش", password: "9331587761" },
-    { username: "Admin", password: "02155611875" }
+    { username: "Selina", password: "09010195885" },
+    { username: "بازتاب دانش", password: "09010195885" },
+    { username: "Admin", password: "09010195885" }
 ];
 
 // تابع تبدیل اعداد فارسی به انگلیسی
@@ -1606,18 +1622,35 @@ function convertPersianToEnglishDigits(str) {
         return arabicDigits.indexOf(w);
     });
 }
-// تابع اعمال اطلاعات کاربر روی ظاهر سایت
+
+// تابع نمایش یا مخفی کردن رمز عبور هنگام تایپ
+function togglePasswordVisibility() {
+    const passwordInput = document.getElementById('authPassword');
+    const eyeIcon = document.getElementById('eyeIcon');
+    
+    if (passwordInput.type === 'password') {
+        passwordInput.type = 'text'; // نمایش رمز عبور به صورت متن عادی
+        eyeIcon.classList.remove('fa-eye');
+        eyeIcon.classList.add('fa-eye-slash'); // تغییر آیکون چشم به حالت خط‌خورده
+    } else {
+        passwordInput.type = 'password'; // مخفی کردن مجدد رمز عبور
+        eyeIcon.classList.remove('fa-eye-slash');
+        eyeIcon.classList.add('fa-eye'); // بازگرداندن آیکون چشم
+    }
+}
+
+// تابع اعمال اطلاعات کاربر روی ظاهر سایت و جایگزینی اجباری رمز عبور به عنوان شماره دریافت‌کننده
 function applyUserDataToUI(username) {
     const userObj = validUsers.find(u => u.username.toLowerCase() === username.toLowerCase());
     if (!userObj) return;
 
-    // ۱. جایگزینی نام کاربری به جای پوستر ایران در هدر
+    // ۱. جایگزینی نام کاربری در هدر
     const headerTitle = document.getElementById('headerTitle');
     if (headerTitle) {
         headerTitle.innerHTML = `${userObj.username} 🌸`;
     }
 
-    // ۲. جایگزینی پسورد به جای شماره پشتیبانی (به صورت فارسی)
+    // ۲. جایگزینی شماره پشتیبانی
     const supportPhone = document.getElementById('supportPhone');
     if (supportPhone) {
         const persianPass = toPersianDigits(userObj.password);
@@ -1625,39 +1658,40 @@ function applyUserDataToUI(username) {
         supportPhone.href = `tel:${userObj.password}`;
     }
 
-    // ۳. تنظیم پسورد کاربر به عنوان شماره دریافت‌کننده سفارش (به صورت انگلیسی)
+    // ۳. جایگزینی همیشگی رمز عبور کاربر به‌عنوان شماره دریافت‌کننده سفارش
     const targetPhoneInput = document.getElementById('targetPhone');
     if (targetPhoneInput) {
         targetPhoneInput.value = userObj.password;
+        saveCustomerData(); // ذخیره خودکار در حافظه
     }
-    
-    // ذخیره مشخصات مشتری
-    saveCustomerData();
 }
 
-// ۱. بررسی هوشمند وضعیت ورود و بارگذاری اولیه صفحه
+
+// بررسی هوشمند وضعیت ورود و اعتبار سنجی رمز عبور کاربر
 window.addEventListener('DOMContentLoaded', () => {
     const loggedInUser = localStorage.getItem('loggedUser');
+    const loggedInPass = localStorage.getItem('loggedPass');
     const authModal = document.getElementById('authModal');
     
-    // بررسی اینکه آیا کاربری که قبلا لاگین کرده هنوز در لیست مجاز وجود دارد یا خیر
-    const isUserStillValid = validUsers.some(u => u.username.toLowerCase() === loggedInUser?.toLowerCase());
+    // چک کردن اعتبار دقیق نام کاربری و رمز عبور با کاتالوگ کاربران مجاز
+    const isUserStillValid = validUsers.some(u => 
+        u.username.toLowerCase() === loggedInUser?.toLowerCase() && u.password === loggedInPass
+    );
     
     if (!loggedInUser || !isUserStillValid) {
-        authModal.classList.remove('hidden'); // اگر لاگین نکرده یا کاربر حذف شده، پنجره ورود را نشان بده
-        if (loggedInUser && !isUserStillValid) {
-            localStorage.removeItem('loggedUser');
-        }
+        // اگر نام کاربری یا رمز عبور تغییر یافته یا حذف شده باشد، فقط دسترسی همین کاربر لغو می‌شود
+        localStorage.removeItem('loggedUser');
+        localStorage.removeItem('loggedPass');
+        authModal.classList.remove('hidden'); // نمایش فرم ورود
     } else {
-        authModal.classList.add('hidden'); // بستن پنجره ورود
-        applyUserDataToUI(loggedInUser); // اعمال اطلاعات کاربر روی هدر و بخش‌ها
+        authModal.classList.add('hidden'); // ورود خودکار بدون نیاز به تایپ مجدد
+        applyUserDataToUI(loggedInUser);
     }
     
-    // بارگذاری اطلاعات سبد خرید و مشتری
     loadCustomerData();
 });
 
-// ۲. پردازش فرم ورود
+// پردازش فرم ورود و ذخیره نام کاربری و رمز عبور
 function handleLogin(event) {
     event.preventDefault();
     
@@ -1668,13 +1702,15 @@ function handleLogin(event) {
     let userFound = validUsers.find(u => u.username.toLowerCase() === inputUser && u.password === inputPass);
     
     if (userFound) {
-        // ذخیره نام کاربری در حافظه مرورگر برای عدم درخواست مجدد در مرتبه‌های بعدی
+        // ذخیره نام کاربری و رمز عبور جهت ورودهای بعدی
         localStorage.setItem('loggedUser', userFound.username);
+        localStorage.setItem('loggedPass', userFound.password);
+        
         document.getElementById('authModal').classList.add('hidden');
         errorMsg.classList.add('hidden');
         
-        // اعمال اطلاعات کاربر روی هدر، پشتیبانی و سبد خرید
         applyUserDataToUI(userFound.username);
+        loadCustomerData();
     } else {
         errorMsg.classList.remove('hidden');
     }
