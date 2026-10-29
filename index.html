@@ -1127,13 +1127,21 @@ function submitOrder(platform) {
         return;
     }
     
-    const name = document.getElementById('customerName')?.value || '';
-    const phone = document.getElementById('customerPhone')?.value || '';
-    const address = document.getElementById('customerAddress')?.value || '';
-    const customTarget = document.getElementById('targetPhone')?.value || '';
+    const name = document.getElementById('customerName')?.value.trim() || '';
+    const phone = document.getElementById('customerPhone')?.value.trim() || '';
+    const address = document.getElementById('customerAddress')?.value.trim() || '';
+    const customTarget = document.getElementById('targetPhone')?.value.trim() || '';
     
+    // ۱. بررسی پر بودن تمام مشخصات سفارش‌دهنده
     if (!name || !phone || !address) {
         showToast('⚠️ لطفاً تمام مشخصات سفارش‌دهنده را وارد نمایید.', '', 'remove');
+        return;
+    }
+    
+    // ۲. بررسی شرط ۱۱ رقمی بودن شماره همراه سفارش‌دهنده
+    let cleanPhone = phone.replace(/\D/g, '');
+    if (cleanPhone.length !== 11) {
+        showToast('⚠️ شماره همراه سفارش‌دهنده باید دقیقاً ۱۱ رقم باشد.', '', 'remove');
         return;
     }
     
@@ -1153,7 +1161,6 @@ function submitOrder(platform) {
         groupedForText[item.groupName].push(item);
     });
 
-    // ثبت در تاریخچه با شماره سفارش یکتا و درج شماره در متن
     const orderNum = getOrderNumber();
     saveOrderToHistory(orderNum);
 
@@ -1165,8 +1172,8 @@ function submitOrder(platform) {
     orderText += `📅 تاریخ: ${toPersianDigits(orderDateStr)}  ساعت ${toPersianDigits(orderTimeStr)}\n\n`;
     orderText += `📍 آدرس: ${address}\n`;
     orderText += `👤 نام: ${name}\n`;
-    orderText += `📞 همراه:   ${phone}\n\n`;
-    orderText += `📑 جزئیات  سفارش: \n`;
+    orderText += `📞 همراه: ${toPersianDigits(phone)}\n\n`;
+    orderText += `📑 جزئیات سفارش: \n`;
     orderText += `-----------------------------------\n`;
 
     let itemCounter = 1;
@@ -1175,7 +1182,7 @@ function submitOrder(platform) {
         if (list.length > 0) {
             orderText += `📌 ${gName}\n`;
             list.forEach(item => {
-                orderText += `${itemCounter++}. ${item.name} =  ${toPersianDigits(item.quantity)} عدد\n`;
+                orderText += `${itemCounter++}. ${item.name} = ${toPersianDigits(item.quantity)} عدد\n`;
             });
             orderText += `\n`;
         }
@@ -1207,28 +1214,26 @@ function submitOrder(platform) {
         return;
     }
     
-    // اولویت‌دهی به رمز عبور کاربر لاگین‌شده برای ارسال واتس‌آپ
     const loggedInUser = localStorage.getItem('loggedUser');
     const userObj = validUsers.find(u => u.username.toLowerCase() === loggedInUser?.toLowerCase());
     let targetNum = userObj ? userObj.password : customTarget;
 
-    let cleanNumber = targetNum.replace(/\D/g, '');
-    if (cleanNumber.startsWith('0')) {
-        cleanNumber = '98' + cleanNumber.substring(1);
-    } else if (!cleanNumber.startsWith('98')) {
-        cleanNumber = '98' + cleanNumber;
+    let cleanTargetNumber = targetNum.replace(/\D/g, '');
+    if (cleanTargetNumber.startsWith('0')) {
+        cleanTargetNumber = '98' + cleanTargetNumber.substring(1);
+    } else if (!cleanTargetNumber.startsWith('98')) {
+        cleanTargetNumber = '98' + cleanTargetNumber;
     }
     
     const encodedText = encodeURIComponent(orderText);
     
     if (platform === 'whatsapp') {
-        window.open(`https://api.whatsapp.com/send?phone=${cleanNumber}&text=${encodedText}`, '_blank');
+        window.open(`https://api.whatsapp.com/send?phone=${cleanTargetNumber}&text=${encodedText}`, '_blank');
     } else if (platform === 'eitaa') {
         const eitaaAppUrl = `eitaa://share?text=${encodedText}`;
         const eitaaWebUrl = `https://eitaa.com/share?text=${encodedText}`;
         
         window.location.href = eitaaAppUrl;
-        
         setTimeout(() => {
             window.open(eitaaWebUrl, '_blank');
         }, 500);
@@ -1236,6 +1241,7 @@ function submitOrder(platform) {
     
     updateCartDisplay();
 }
+
 
 
                 function resendOrderFromHistory(orderId, platform) {
@@ -1247,12 +1253,30 @@ function submitOrder(platform) {
         return;
     }
 
-    // اولویت‌دهی به رمز عبور کاربر لاگین‌شده برای شماره مقصد واتس‌آپ
+    // دریافت آخرین مشخصات وارد شده در صفحه سبد خرید یا ذخیره شده در سفارش
+    const customerInfo = JSON.parse(localStorage.getItem('customer_info') || '{}');
+    const name = selectedOrder.name || customerInfo.name || '';
+    const phone = selectedOrder.phone || customerInfo.phone || '';
+    const address = selectedOrder.address || customerInfo.address || '';
+
+    // ۱. بررسی پر بودن مشخصات در تاریخچه
+    if (!name || !phone || !address) {
+        showToast('⚠️ لطفا ابتدا تمام مشخصات سفارش‌دهنده را در صفحه سبد خرید کامل کنید.', '', 'remove');
+        showScreen('cart');
+        return;
+    }
+
+    // ۲. بررسی شرط ۱۱ رقمی بودن شماره تماس در تاریخچه
+    let cleanPhone = phone.replace(/\D/g, '');
+    if (cleanPhone.length !== 11) {
+        showToast('⚠️ شماره همراه ثبت شده در سفارش نامعتبر است (باید ۱۱ رقم باشد).', '', 'remove');
+        showScreen('cart');
+        return;
+    }
+
     const loggedInUser = localStorage.getItem('loggedUser');
     const userObj = validUsers.find(u => u.username.toLowerCase() === loggedInUser?.toLowerCase());
-    
-    const customerInfo = JSON.parse(localStorage.getItem('customer_info') || '{}');
-    let targetPhone = userObj ? userObj.password : (customerInfo.targetPhone || selectedOrder.phone || '');
+    let targetPhone = userObj ? userObj.password : (customerInfo.targetPhone || phone || '');
 
     if ((platform === 'whatsapp' || platform === 'eitaa') && !targetPhone) {
         showToast('⚠️ لطفا ابتدا شماره مقصد را در صفحه سبد خرید وارد کنید.', '', 'remove');
@@ -1271,7 +1295,6 @@ function submitOrder(platform) {
         groupedForText[item.groupName].push(item);
     });
 
-    // محاسبه تاریخ و زمان ارسال جدید
     const now = new Date();
     const resendDateStr = new Intl.DateTimeFormat('fa-IR-u-nu-latn', { year: 'numeric', month: '2-digit', day: '2-digit' }).format(now);
     const resendTimeStr = now.toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit' });
@@ -1279,9 +1302,9 @@ function submitOrder(platform) {
     let orderText = `🌸 ارسال مجدد سفارش شماره #${toPersianDigits(selectedOrder.id)} 🌸\n\n`;
     orderText += `📅 تاریخ ثبت اولیه: ${toPersianDigits(selectedOrder.date)}\n`;
     orderText += `🔄 تاریخ و زمان ارسال مجدد: ${toPersianDigits(resendDateStr)} - ساعت ${toPersianDigits(resendTimeStr)}\n`;
-    orderText += `👤 سفارش‌دهنده: ${selectedOrder.name || customerInfo.name || 'نامشخص'}\n`;
-    orderText += `📞 همراه: ${selectedOrder.phone || customerInfo.phone || 'نامشخص'}\n`;
-    orderText += `📍 آدرس : ${selectedOrder.address || customerInfo.address || 'نامشخص'}\n\n`;
+    orderText += `👤 سفارش‌دهنده: ${name}\n`;
+    orderText += `📞 همراه: ${toPersianDigits(phone)}\n`;
+    orderText += `📍 آدرس: ${address}\n\n`;
     orderText += `📑 جزئیات سفارش: \n`;
     orderText += `-----------------------------------\n`;
 
@@ -1289,9 +1312,9 @@ function submitOrder(platform) {
     Object.keys(groupedForText).forEach(gName => {
         const list = groupedForText[gName];
         if (list.length > 0) {
-            orderText += `📌 *${gName}*\n`;
+            orderText += `📌 ${gName}\n`;
             list.forEach(item => {
-                orderText += `${itemCounter++}. *${item.name}* = ${toPersianDigits(item.quantity)} عدد\n`;
+                orderText += `${itemCounter++}. ${item.name} = ${toPersianDigits(item.quantity)} عدد\n`;
             });
             orderText += `\n`;
         }
@@ -1306,28 +1329,28 @@ function submitOrder(platform) {
 
     if (platform === 'copy') return;
 
-    let cleanNumber = targetPhone.replace(/\D/g, '');
-    if (cleanNumber.startsWith('0')) {
-        cleanNumber = '98' + cleanNumber.substring(1);
-    } else if (!cleanNumber.startsWith('98')) {
-        cleanNumber = '98' + cleanNumber;
+    let cleanTargetNumber = targetPhone.replace(/\D/g, '');
+    if (cleanTargetNumber.startsWith('0')) {
+        cleanTargetNumber = '98' + cleanTargetNumber.substring(1);
+    } else if (!cleanTargetNumber.startsWith('98')) {
+        cleanTargetNumber = '98' + cleanTargetNumber;
     }
 
     const encodedText = encodeURIComponent(orderText);
 
     if (platform === 'whatsapp') {
-        window.open(`https://api.whatsapp.com/send?phone=${cleanNumber}&text=${encodedText}`, '_blank');
+        window.open(`https://api.whatsapp.com/send?phone=${cleanTargetNumber}&text=${encodedText}`, '_blank');
     } else if (platform === 'eitaa') {
         const eitaaAppUrl = `eitaa://share?text=${encodedText}`;
         const eitaaWebUrl = `https://eitaa.com/share?text=${encodedText}`;
 
         window.location.href = eitaaAppUrl;
-
         setTimeout(() => {
             window.open(eitaaWebUrl, '_blank');
         }, 500);
     }
 }
+
 
 
 
@@ -1620,13 +1643,13 @@ function clearAllHistory() {
 
 // لیست کاربران مجاز (نام کاربری و رمز عبور/شماره تماس)
 const validUsers = [
-    { username: "پوستر ایران", password: "09125956975" },
-    { username: "پوسترایران", password: "09125956975" },
-    { username: "PosterIran", password: "09125956975" },
-    { username: "Pixel", password: "09125956975" },
-    { username: "Selina", password: "09125956975" },
-    { username: "بازتاب دانش", password: "09125956975" },
-    { username: "Admin", password: "09125956975" }
+    { username: "پوستر ایران", password: "09010195885" },
+    { username: "پوسترایران", password: "09010195885" },
+    { username: "PosterIran", password: "09010195885" },
+    { username: "Pixel", password: "09010195885" },
+    { username: "Selina", password: "09128386208" },
+    { username: "بازتاب دانش", password: "09331587761" },
+    { username: "Admin", password: "09122487316" }
 ];
 
 // تابع تبدیل اعداد فارسی به انگلیسی
@@ -1659,6 +1682,7 @@ function togglePasswordVisibility() {
 }
 
 // تابع اعمال اطلاعات کاربر روی ظاهر سایت و جایگزینی اجباری رمز عبور به عنوان شماره دریافت‌کننده
+// جایگزین کردن این تابع
 function applyUserDataToUI(username) {
     const userObj = validUsers.find(u => u.username.toLowerCase() === username.toLowerCase());
     if (!userObj) return;
@@ -1681,13 +1705,20 @@ function applyUserDataToUI(username) {
     const targetPhoneInput = document.getElementById('targetPhone');
     if (targetPhoneInput) {
         targetPhoneInput.value = userObj.password;
-        saveCustomerData(); // ذخیره خودکار در حافظه
     }
 }
 
+
 // بررسی هوشمند وضعیت ورود و بارگذاری پایدار مشخصات مشتری
+// جایگزین کردن این بخش در رویداد DOMContentLoaded
 window.addEventListener('DOMContentLoaded', () => {
-    // 1. بررسی وضعیت لاگین و امنیت کاربر
+    // ۱. ابتدا اطلاعات ذخیره شده مشتری را بارگذاری می‌کنیم تا فیلدها پر شوند
+    loadCustomerData();
+    loadCartFromLocalStorage();
+    renderHistory();
+    updateOnlineStatus();
+
+    // ۲. بررسی وضعیت لاگین و امنیت کاربر
     const loggedInUser = localStorage.getItem('loggedUser');
     const loggedInPass = localStorage.getItem('loggedPass');
     const authModal = document.getElementById('authModal');
@@ -1704,13 +1735,8 @@ window.addEventListener('DOMContentLoaded', () => {
         if (authModal) authModal.classList.add('hidden');
         applyUserDataToUI(loggedInUser); // تنظیم هدر و شماره مقصد
     }
-    
-    // 2. بازیابی دقیق و پایدار مشخصات نام، تلفن و آدرس مشتری از حافظه
-    loadCustomerData();
-    loadCartFromLocalStorage();
-    renderHistory();
-    updateOnlineStatus();
 });
+
 
 // پردازش فرم ورود و ذخیره نام کاربری و رمز عبور
 function handleLogin(event) {
