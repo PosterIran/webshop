@@ -1289,9 +1289,9 @@ function submitOrder(platform) {
     Object.keys(groupedForText).forEach(gName => {
         const list = groupedForText[gName];
         if (list.length > 0) {
-            orderText += `📌 ${gName}\n`;
+            orderText += `📌 *${gName}*\n`;
             list.forEach(item => {
-                orderText += `${itemCounter++}. ${item.name} = ${toPersianDigits(item.quantity)} عدد\n`;
+                orderText += `${itemCounter++}. *${item.name}* = ${toPersianDigits(item.quantity)} عدد\n`;
             });
             orderText += `\n`;
         }
@@ -1366,35 +1366,49 @@ function submitOrder(platform) {
    ========================================================= */
 
 function saveCustomerData() {
-  const customerData = {
-    name: document.getElementById('customerName')?.value || '',
-    phone: document.getElementById('customerPhone')?.value || '',
-    address: document.getElementById('customerAddress')?.value || ''
-  };
-  localStorage.setItem('customer_info', JSON.stringify(customerData));
+    const customerData = {
+        name: document.getElementById('customerName').value,
+        phone: document.getElementById('customerPhone').value,
+        address: document.getElementById('customerAddress').value
+    };
+    localStorage.setItem('customer_info', JSON.stringify(customerData));
 }
 
-
 function loadCustomerData() {
-  const savedData = localStorage.getItem('customer_info');
-  if (savedData) {
-    try {
-      const data = JSON.parse(savedData);
-      const nameEl = document.getElementById('customerName');
-      const phoneEl = document.getElementById('customerPhone');
-      const addressEl = document.getElementById('customerAddress');
-
-      if (nameEl && data.name) nameEl.value = data.name;
-      if (phoneEl && data.phone) phoneEl.value = data.phone;
-      if (addressEl && data.address) addressEl.value = data.address;
-    } catch (e) {
-      console.error('خطا در بارگذاری اطلاعات مشتری:', e);
+    const savedData = localStorage.getItem('customer_info');
+    if (savedData) {
+        const data = JSON.parse(savedData);
+        document.getElementById('customerName').value = data.name || '';
+        document.getElementById('customerPhone').value = data.phone || '';
+        document.getElementById('customerAddress').value = data.address || '';
     }
-  }
-  
-  loadCartFromLocalStorage();
-  renderHistory();
-  updateOnlineStatus();
+}
+
+function saveCartToStorage() {
+    if (cart) {
+        localStorage.setItem('poster_cart', JSON.stringify(cart));
+    }
+}
+
+function loadCartFromStorage() {
+    const savedCart = localStorage.getItem('poster_cart');
+    
+    if (savedCart) {
+        try {
+            cart = JSON.parse(savedCart);
+            
+            // بررسی محصولات حذف شده یا ناموجود
+            validateCart();
+            
+            updateBadge();
+            
+        } catch (e) {
+            cart = {};
+            localStorage.removeItem('poster_cart');
+        }
+    } else {
+        cart = {};
+    }
 }
 
 function getOrderNumber() {
