@@ -1117,9 +1117,6 @@ setInterval(updateDateTime, 1000);
                 return Promise.resolve();
             }
         }
-
-        /* تابع اصلی ثبت سفارش */
-        /* تابع اصلی ثبت سفارش */
 function submitOrder(platform) {
     const items = Object.values(cart);
     if (items.length === 0) {
@@ -1242,8 +1239,6 @@ function submitOrder(platform) {
     updateCartDisplay();
 }
 
-
-
                 function resendOrderFromHistory(orderId, platform) {
     const history = JSON.parse(localStorage.getItem('previousOrders') || '[]');
     const selectedOrder = history.find(order => String(order.id) === String(orderId));
@@ -1350,11 +1345,6 @@ function submitOrder(platform) {
         }, 500);
     }
 }
-
-
-
-
-        
 
         function reorderFromHistory(orderId) {
             const history = JSON.parse(localStorage.getItem('posterIranHistory') || '[]');
