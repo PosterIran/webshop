@@ -1161,33 +1161,33 @@ function submitOrder(platform) {
     const orderDateStr = new Intl.DateTimeFormat('fa-IR-u-nu-latn', { year: 'numeric', month: '2-digit', day: '2-digit' }).format(now);
     const orderTimeStr = now.toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit' });
 
-    let orderText = `🌸 *سفارش جدید _ شماره ${toPersianDigits(orderNum)}* 🌸\n\n`;
-    orderText += `📅 *تاریخ :* ${toPersianDigits(orderDateStr)} *- ساعت* ${toPersianDigits(orderTimeStr)}\n`;
-    orderText += `📍 *آدرس:* ${address}\n\n`;
-    orderText += `👤  ${name}\n`;
-    orderText += `📞 *شماره تماس:* ${phone}\n`;
-    orderText += `📑 *جزئیات اقلام سفارش:* \n`;
+    let orderText = `🌸 سفارش جدید _ شماره ${toPersianDigits(orderNum)} 🌸\n `;
+    orderText += `📅 تاریخ: ${toPersianDigits(orderDateStr)}  ساعت ${toPersianDigits(orderTimeStr)}\n\n`;
+    orderText += `📍 آدرس: ${address}\n`;
+    orderText += `👤 نام: ${name}\n`;
+    orderText += `📞 همراه:   ${phone}\n\n`;
+    orderText += `📑 جزئیات  سفارش: \n`;
     orderText += `-----------------------------------\n`;
 
     let itemCounter = 1;
     Object.keys(groupedForText).forEach(gName => {
         const list = groupedForText[gName];
         if (list.length > 0) {
-            orderText += `📌 *[${gName}]*\n`;
+            orderText += `📌 ${gName}\n`;
             list.forEach(item => {
-                orderText += `${itemCounter++}. *${item.name}* =  ${toPersianDigits(item.quantity)} عدد\n`;
+                orderText += `${itemCounter++}. ${item.name} =  ${toPersianDigits(item.quantity)} عدد\n`;
             });
             orderText += `\n`;
         }
     });
 
     orderText += `-----------------------------------\n`;
-    orderText += `📊 *خلاصه کل سفارش به تفکیک دسته:* \n`;
+    orderText += `📊 خلاصه کل سفارش به تفکیک دسته: \n`;
     Object.keys(groupedForText).forEach(gName => {
         const list = groupedForText[gName];
         if (list.length > 0) {
             const totalGroupQty = list.reduce((acc, cur) => acc + cur.quantity, 0);
-            orderText += `▫️ *${gName}:* ${toPersianDigits(totalGroupQty)} عدد (${toPersianDigits(list.length)} عنوان)\n`;
+            orderText += `▫️ ${gName}: ${toPersianDigits(totalGroupQty)} عدد (${toPersianDigits(list.length)} عنوان)\n`;
         }
     });
 
@@ -1276,22 +1276,22 @@ function submitOrder(platform) {
     const resendDateStr = new Intl.DateTimeFormat('fa-IR-u-nu-latn', { year: 'numeric', month: '2-digit', day: '2-digit' }).format(now);
     const resendTimeStr = now.toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit' });
 
-    let orderText = `🌸 *ارسال مجدد سفارش شماره #${toPersianDigits(selectedOrder.id)}* 🌸\n\n`;
-    orderText += `📅 *تاریخ ثبت اولیه:* ${toPersianDigits(selectedOrder.date)}\n`;
-    orderText += `🔄 *تاریخ و زمان ارسال مجدد:* ${toPersianDigits(resendDateStr)} - ساعت ${toPersianDigits(resendTimeStr)}\n`;
-    orderText += `👤 *سفارش‌دهنده:* ${selectedOrder.name || customerInfo.name || 'نامشخص'}\n`;
-    orderText += `📞 *شماره تماس:* ${selectedOrder.phone || customerInfo.phone || 'نامشخص'}\n`;
-    orderText += `📍 *آدرس تحویل:* ${selectedOrder.address || customerInfo.address || 'نامشخص'}\n\n`;
-    orderText += `📑 *جزئیات اقلام سفارش:* \n`;
+    let orderText = `🌸 ارسال مجدد سفارش شماره #${toPersianDigits(selectedOrder.id)} 🌸\n\n`;
+    orderText += `📅 تاریخ ثبت اولیه: ${toPersianDigits(selectedOrder.date)}\n`;
+    orderText += `🔄 تاریخ و زمان ارسال مجدد: ${toPersianDigits(resendDateStr)} - ساعت ${toPersianDigits(resendTimeStr)}\n`;
+    orderText += `👤 سفارش‌دهنده: ${selectedOrder.name || customerInfo.name || 'نامشخص'}\n`;
+    orderText += `📞 همراه: ${selectedOrder.phone || customerInfo.phone || 'نامشخص'}\n`;
+    orderText += `📍 آدرس : ${selectedOrder.address || customerInfo.address || 'نامشخص'}\n\n`;
+    orderText += `📑 جزئیات سفارش: \n`;
     orderText += `-----------------------------------\n`;
 
     let itemCounter = 1;
     Object.keys(groupedForText).forEach(gName => {
         const list = groupedForText[gName];
         if (list.length > 0) {
-            orderText += `📌 *[${gName}]*\n`;
+            orderText += `📌 ${gName}\n`;
             list.forEach(item => {
-                orderText += `${itemCounter++}. *${item.name}* = ${toPersianDigits(item.quantity)} عدد\n`;
+                orderText += `${itemCounter++}. ${item.name} = ${toPersianDigits(item.quantity)} عدد\n`;
             });
             orderText += `\n`;
         }
@@ -1369,27 +1369,24 @@ function saveCustomerData() {
   const customerData = {
     name: document.getElementById('customerName')?.value || '',
     phone: document.getElementById('customerPhone')?.value || '',
-    address: document.getElementById('customerAddress')?.value || '',
-    targetPhone: document.getElementById('targetPhone')?.value || ''
+    address: document.getElementById('customerAddress')?.value || ''
   };
   localStorage.setItem('customer_info', JSON.stringify(customerData));
 }
+
 
 function loadCustomerData() {
   const savedData = localStorage.getItem('customer_info');
   if (savedData) {
     try {
       const data = JSON.parse(savedData);
-      // بازگردانی مشخصات فردی (این مقادیر با آپدیت یا تغییر پسورد پاک نمی‌شوند)
-      if (data.name && document.getElementById('customerName')) {
-        document.getElementById('customerName').value = data.name;
-      }
-      if (data.phone && document.getElementById('customerPhone')) {
-        document.getElementById('customerPhone').value = data.phone;
-      }
-      if (data.address && document.getElementById('customerAddress')) {
-        document.getElementById('customerAddress').value = data.address;
-      }
+      const nameEl = document.getElementById('customerName');
+      const phoneEl = document.getElementById('customerPhone');
+      const addressEl = document.getElementById('customerAddress');
+
+      if (nameEl && data.name) nameEl.value = data.name;
+      if (phoneEl && data.phone) phoneEl.value = data.phone;
+      if (addressEl && data.address) addressEl.value = data.address;
     } catch (e) {
       console.error('خطا در بارگذاری اطلاعات مشتری:', e);
     }
