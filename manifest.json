@@ -1,0 +1,24 @@
+{
+  "name": "پوستر ایران",
+  "short_name": "پوستر ایران",
+  "description": "دنیای پوسترهای آموزشی و کمک درسی",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#fff5f8",
+  "theme_color": "#ec4899",
+  "icons": [
+    {
+      "src": "https://PosterIran.github.io/pixel/icons/logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://PosterIran.github.io/pixel/icons/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
