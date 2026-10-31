@@ -11,6 +11,7 @@
     <!-- تنظیمات برای نمایش بهتر در موبایل -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="پوستر ایران">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700;900&display=swap" rel="stylesheet">
@@ -229,34 +230,62 @@
             border: 2px solid #000;
             font-weight: 900;
         }
+        
         /* استایل پنجره ورود (Modal) */
-#authModal {
-    position: fixed;
-    inset: 0;
-    background: rgba(30, 27, 75, 0.85);
-    backdrop-filter: blur(8px);
-    z-index: 99999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1rem;
-}
-#authModal.hidden {
-    display: none !important;
-}
-.auth-box {
-    background: white;
-    border: 2px solid #000;
-    border-radius: 24px;
-    padding: 2rem;
-    width: 100%;
-    max-width: 380px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-    text-align: center;
-}
+        #authModal {
+            position: fixed;
+            inset: 0;
+            background: rgba(30, 27, 75, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 99999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+        #authModal.hidden {
+            display: none !important;
+        }
+        .auth-box {
+            background: white;
+            border: 2px solid #000;
+            border-radius: 24px;
+            padding: 2rem;
+            width: 100%;
+            max-width: 380px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+
+        /* بنر و پاپ‌آپ دعوت به نصب اپلیکیشن */
+        #pwaInstallBanner {
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.27), opacity 0.3s ease;
+        }
     </style>
 </head>
 <body class="text-gray-900 pb-28">
+
+    <!-- بنر شناور دعوت به نصب مستقیم اپلیکیشن -->
+    <div id="pwaInstallBanner" class="hidden fixed bottom-24 left-4 right-4 z-[99] max-w-md mx-auto bg-gradient-to-r from-purple-900 via-pink-600 to-purple-800 text-white p-4 rounded-3xl border-2 border-black shadow-2xl items-center justify-between gap-3">
+        <div class="flex items-center gap-3">
+            <div class="w-12 h-12 bg-white rounded-2xl border-2 border-black flex items-center justify-center p-1 flex-shrink-0">
+                <img src="https://PosterIran.github.io/pixel/icons/logo.png" alt="App Icon" class="w-full h-full object-contain rounded-xl">
+            </div>
+            <div class="flex flex-col">
+                <span class="text-xs font-black text-yellow-300">نصب مستقیم برنامه 📲</span>
+                <span class="text-[11px] font-bold text-pink-100">نصب برنامه پوستر ایران بدون نیاز به دانلود از بازار</span>
+            </div>
+        </div>
+        <div class="flex items-center gap-2">
+            <button onclick="installPWAApp()" class="bg-yellow-400 hover:bg-yellow-300 text-purple-950 font-black text-xs px-3.5 py-2 rounded-xl border-2 border-black transition active:scale-95 whitespace-nowrap">
+                نصب برنامه
+            </button>
+            <button onclick="dismissInstallBanner()" class="text-white/80 hover:text-white text-base p-1">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </div>
+
     <!-- پنجره ورود اولیه به سایت -->
 <div id="authModal" class="hidden">
     <div class="auth-box">
@@ -339,6 +368,12 @@
 </div>
             
             <div class="flex items-center gap-3">
+                <!-- دکمه نصب اپلیکیشن در هدر -->
+                <button id="headerInstallBtn" onclick="installPWAApp()" class="hidden bg-yellow-400 text-purple-950 font-black text-xs px-3 py-2 rounded-xl border-2 border-black hover:bg-yellow-300 transition flex items-center gap-1.5 shadow-sm">
+                    <i class="fas fa-download text-xs"></i>
+                    <span>نصب اپلیکیشن</span>
+                </button>
+
                 <!-- ویجت زمان و تاریخ شمسی - بدون سایه -->
                 <div class="flex flex-col items-center justify-center bg-pink-100 px-3 py-1 rounded-xl border-2 border-black">
                     <span id="headerDayTime" class="text-[10px] font-bold text-pink-600 leading-none">--- --:--:--</span>
@@ -379,6 +414,12 @@
                 </p>
 
                 <div class="flex flex-col gap-4 justify-center items-center max-w-md mx-auto">
+                    <!-- دکمه نصب اپلیکیشن در صفحه اصلی -->
+                    <button id="heroInstallBtn" onclick="installPWAApp()" class="hidden w-full bg-yellow-400 hover:bg-yellow-300 text-purple-950 font-black text-lg py-4 px-6 rounded-2xl border-2 border-black transition-all flex items-center justify-center gap-2 shadow-md">
+                        <i class="fas fa-download text-xl"></i>
+                        <span>نصب مستقیم اپلیکیشن پوستر ایران 📱</span>
+                    </button>
+
                     <button onclick="showScreen('gallery')" class="premium-shimmer-btn">
                         <i class="fas fa-magic"></i>
                         ورود به گالری 🌸
@@ -458,7 +499,7 @@
                             <span class="group-open:rotate-180 transition">🔻</span>
                         </summary>
                         <p class="mt-3 text-sm font-bold text-gray-600 leading-relaxed border-t border-gray-200 pt-3">
-                        کافیست در مرورگر گوشی خود سه نقطه بالای صفحه (Option) را لمس کرده و گزینه «افزودن به صفحه اصلی «Add to Home Screen» یا نصب و ایجاد میانبر » «Install and create shortcut» را انتخاب کنید.
+                        با زدن دکمه «نصب اپلیکیشن» در بالای صفحه یا بنر نصب، برنامه به صورت مستقیم روی منوی برنامه‌های گوشی شما نصب می‌شود.
                         </p>
                     </details>
                 </div>
@@ -623,6 +664,79 @@
 <script src="./postersData.js"></script>
 
     <script>
+        /* =========================================================
+           سیستم هوشمند مدیریت نصب اپلیکیشن PWA
+           ========================================================= */
+        let deferredPrompt = null;
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            // جلوگیری از نمایش بنر پیش‌فرض مرورگر
+            e.preventDefault();
+            deferredPrompt = e;
+            
+            // نمایش دکمه‌های نصب اختصاصی در هدر، بنر و بخش هیرو
+            showInstallButtons();
+        });
+
+        function showInstallButtons() {
+            const headerBtn = document.getElementById('headerInstallBtn');
+            const heroBtn = document.getElementById('heroInstallBtn');
+            const installBanner = document.getElementById('pwaInstallBanner');
+
+            if (headerBtn) headerBtn.classList.remove('hidden');
+            if (heroBtn) heroBtn.classList.remove('hidden');
+            
+            // اگر کاربر قبلاً بنر را نبسته باشد، بنر شناور پایین را نشان بده
+            if (installBanner && !sessionStorage.getItem('pwaBannerDismissed')) {
+                installBanner.classList.remove('hidden');
+                installBanner.classList.add('flex');
+            }
+        }
+
+        async function installPWAApp() {
+            if (!deferredPrompt) {
+                showToast('💡 برنامه از قبل نصب شده است یا مرورگر شما از نصب مستقیم پشتیبانی نمی‌کند.', '', 'remove');
+                return;
+            }
+
+            // فراخوانی پنجره نصب مرورگر
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            
+            if (outcome === 'accepted') {
+                showToast('🎉 برنامه با موفقیت روی دستگاه شما نصب شد!', '', 'success');
+                hideInstallButtons();
+            }
+            deferredPrompt = null;
+        }
+
+        function dismissInstallBanner() {
+            const installBanner = document.getElementById('pwaInstallBanner');
+            if (installBanner) {
+                installBanner.classList.add('hidden');
+                installBanner.classList.remove('flex');
+            }
+            sessionStorage.setItem('pwaBannerDismissed', 'true');
+        }
+
+        function hideInstallButtons() {
+            const headerBtn = document.getElementById('headerInstallBtn');
+            const heroBtn = document.getElementById('heroInstallBtn');
+            const installBanner = document.getElementById('pwaInstallBanner');
+
+            if (headerBtn) headerBtn.classList.add('hidden');
+            if (heroBtn) heroBtn.classList.add('hidden');
+            if (installBanner) {
+                installBanner.classList.add('hidden');
+                installBanner.classList.remove('flex');
+            }
+        }
+
+        window.addEventListener('appinstalled', () => {
+            hideInstallButtons();
+            showToast('🌸 پوستر ایران به لیست برنامه‌های دستگاه اضافه شد.', '', 'success');
+        });
+
         // ثبت سرویس ورکر در صورت پشتیبانی
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
