@@ -1758,7 +1758,7 @@ const validUsers = [
     { username: "پوستر ایران", password: "09010195885" },
     { username: "پوسترایران", password: "09010195885" },
     { username: "PosterIran", password: "09010195885" },
-    { username: "Pixel", password: "09010195" },
+    { username: "Pixel", password: "09353576462" },
     { username: "Selina", password: "09128386208" },
     { username: "بازتاب دانش", password: "09331587761" },
     { username: "Pixel", password: "09199894524" },
@@ -1820,23 +1820,39 @@ function applyUserDataToUI(username) {
         targetPhoneInput.value = userObj.password;
     }
 }
+// شماره نسخه فعلی برنامه (هر بار که فایل را آپدیت می‌کنید، این مقدار را تغییر دهید مثلاً '1.0.2')
+const CURRENT_APP_VERSION = '1.0.2';
 
-
-// بررسی هوشمند وضعیت ورود و بارگذاری پایدار مشخصات مشتری
-// جایگزین کردن این بخش در رویداد DOMContentLoaded
 window.addEventListener('DOMContentLoaded', () => {
-    // ۱. ابتدا اطلاعات ذخیره شده مشتری را بارگذاری می‌کنیم تا فیلدها پر شوند
+    // ۱. بررسی سیستم به‌روزرسانی نسخه برنامه و پاکسازی کش قدیمی
+    const savedVersion = localStorage.getItem('app_version');
+    if (savedVersion && savedVersion !== CURRENT_APP_VERSION) {
+        // اگر نسخه تغییر کرده بود، سرویس ورکر را پاکسازی و صفحه را رفرش می‌کنیم تا آپدیت اعمال شود
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.getRegistrations().then(registrations => {
+                for (let registration of registrations) {
+                    registration.unregister();
+                }
+            });
+        }
+        setTimeout(() => {
+            showToast('نسخه جدید برنامه بارگذاری شد؛ سیستم به‌روزرسانی شد 🌸', '', 'success');
+        }, 1200);
+    }
+    localStorage.setItem('app_version', CURRENT_APP_VERSION);
+    
+    // ۲. ابتدا اطلاعات ذخیره شده مشتری را بارگذاری می‌کنیم تا فیلدها پر شوند
     loadCustomerData();
     loadCartFromLocalStorage();
     renderHistory();
     updateOnlineStatus();
-
-    // ۲. بررسی وضعیت لاگین و امنیت کاربر
+    
+    // ۳. بررسی وضعیت لاگین و امنیت کاربر
     const loggedInUser = localStorage.getItem('loggedUser');
     const loggedInPass = localStorage.getItem('loggedPass');
     const authModal = document.getElementById('authModal');
     
-    const isUserStillValid = validUsers.some(u => 
+    const isUserStillValid = validUsers.some(u =>
         u.username.toLowerCase() === loggedInUser?.toLowerCase() && u.password === loggedInPass
     );
     
@@ -1846,7 +1862,7 @@ window.addEventListener('DOMContentLoaded', () => {
         if (authModal) authModal.classList.remove('hidden');
     } else {
         if (authModal) authModal.classList.add('hidden');
-        applyUserDataToUI(loggedInUser); // تنظیم هدر و شماره مقصد
+        applyUserDataToUI(loggedInUser);
     }
 });
 
