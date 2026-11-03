@@ -675,17 +675,18 @@
 <script src="./postersData.js"></script>
 
     <script>
-        /* =========================================================
-           سیستم هوشمند مدیریت نصب اپلیکیشن PWA
+       /* =========================================================
+           سیستم هوشمند مدیریت نصب اپلیکیشن PWA با قابلیت انقضای ۱۲ ساعته
            ========================================================= */
         let deferredPrompt = null;
+        let autoDismissTimer = null;
 
         window.addEventListener('beforeinstallprompt', (e) => {
             // جلوگیری از نمایش بنر پیش‌فرض مرورگر
             e.preventDefault();
             deferredPrompt = e;
             
-            // نمایش دکمه‌های نصب اختصاصی در هدر، بنر و بخش هیرو
+            // نمایش دکمه‌های نصب
             showInstallButtons();
         });
 
@@ -697,10 +698,29 @@
             if (headerBtn) headerBtn.classList.remove('hidden');
             if (heroBtn) heroBtn.classList.remove('hidden');
             
-            // اگر کاربر قبلاً بنر را نبسته باشد، بنر شناور پایین را نشان بده
-            if (installBanner && !sessionStorage.getItem('pwaBannerDismissed')) {
+            // بررسی زمان انقضای انصراف (۱۲ ساعت آینده)
+            const dismissTime = localStorage.getItem('pwaBannerDismissTime');
+            const now = Date.now();
+
+            // اگر زمان انصراف گذشته باشد یا کاربر کلیک نکرده باشد، بنر نشان داده می‌شود
+            if (installBanner && (!dismissTime || now > parseInt(dismissTime))) {
                 installBanner.classList.remove('hidden');
                 installBanner.classList.add('flex');
+
+                // حذف خودکار بنر پس از ۷ ثانیه (بدون فعال شدن محرومیت ۱۲ ساعته)
+                if (autoDismissTimer) clearTimeout(autoDismissTimer);
+                autoDismissTimer = setTimeout(() => {
+                    hideBannerVisually();
+                }, 7000);
+            }
+        }
+
+        // فقط مخفی کردن بصری بنر برای همان لحظه (بدون قفل ۱۲ ساعته)
+        function hideBannerVisually() {
+            const installBanner = document.getElementById('pwaInstallBanner');
+            if (installBanner) {
+                installBanner.classList.add('hidden');
+                installBanner.classList.remove('flex');
             }
         }
 
@@ -716,35 +736,33 @@
             
             if (outcome === 'accepted') {
                 showToast('🎉 برنامه با موفقیت روی دستگاه شما نصب شد!', '', 'success');
-                hideInstallButtons();
+                hideInstallButtonsCompletely();
             }
             deferredPrompt = null;
         }
 
+        // دکمه انصراف: مخفی کردن بنر و قفل کردن نمایش آن تا ۱۲ ساعت آینده
         function dismissInstallBanner() {
-            const installBanner = document.getElementById('pwaInstallBanner');
-            if (installBanner) {
-                installBanner.classList.add('hidden');
-                installBanner.classList.remove('flex');
-            }
-            sessionStorage.setItem('pwaBannerDismissed', 'true');
+            hideBannerVisually();
+            if (autoDismissTimer) clearTimeout(autoDismissTimer);
+            
+            // محاسبه ۱۲ ساعت آینده (۱۲ ساعت * ۶۰ دقیقه * ۶۰ ثانیه * ۱۰۰۰ میلی‌ثانیه)
+            const twelveHoursLater = Date.now() + (12 * 60 * 60 * 1000);
+            localStorage.setItem('pwaBannerDismissTime', twelveHoursLater.toString());
         }
 
-        function hideInstallButtons() {
+        function hideInstallButtonsCompletely() {
             const headerBtn = document.getElementById('headerInstallBtn');
             const heroBtn = document.getElementById('heroInstallBtn');
             const installBanner = document.getElementById('pwaInstallBanner');
 
             if (headerBtn) headerBtn.classList.add('hidden');
             if (heroBtn) heroBtn.classList.add('hidden');
-            if (installBanner) {
-                installBanner.classList.add('hidden');
-                installBanner.classList.remove('flex');
-            }
+            hideBannerVisually();
         }
 
         window.addEventListener('appinstalled', () => {
-            hideInstallButtons();
+            hideInstallButtonsCompletely();
             showToast('🌸 پوستر ایران به لیست برنامه‌های دستگاه اضافه شد.', '', 'success');
         });
 
@@ -1268,9 +1286,17 @@ function submitOrder(platform) {
     }
     
     if ((platform === 'whatsapp' || platform === 'eitaa') && !customTarget) {
-        showToast('⚠️ لطفاً شماره مقصد / گیرنده سفارش را وارد کنید.', '', 'remove');
+    showToast('⚠️ لطفاً شماره مقصد / گیرنده سفارش را وارد کنید.', '', 'remove');
+    return;
+}
+
+if (customTarget) {
+    let cleanTargetCheck = customTarget.replace(/\D/g, '');
+    if (cleanTargetCheck.length !== 11) {
+        showToast('⚠️ شماره همراه مقصد / گیرنده باید دقیقاً ۱۱ رقم باشد.', '', 'remove');
         return;
     }
+}
     
     const groupOrder = [1, 2, 4, 5, 6];
     const groupedForText = {};
