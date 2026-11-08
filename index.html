@@ -1105,22 +1105,41 @@
             }
             
             const groupOrder = [1, 2, 4, 5, 6];
-            const groupedItems = {};
+const groupedItems = {};
 
-            groupOrder.forEach(gid => {
-                const groupName = groupInfo[gid]?.name;
-                if (groupName) groupedItems[groupName] = [];
-            });
+groupOrder.forEach(gid => {
+    const groupName = groupInfo[gid]?.name;
+    if (groupName) groupedItems[groupName] = [];
+});
 
-            let totalQty = 0;
+let totalQty = 0;
 
-            items.forEach(item => {
-                totalQty += item.quantity;
-                if (!groupedItems[item.groupName]) {
-                    groupedItems[item.groupName] = [];
-                }
-                groupedItems[item.groupName].push(item);
-            });
+// مرتب‌سازی اقلام سبد خرید مطابق ترتیب اصلی کاتالوگ محصولات
+items.sort((a, b) => {
+    let groupAId = Object.keys(groupInfo).find(key => groupInfo[key].name === a.groupName);
+    let groupBId = Object.keys(groupInfo).find(key => groupInfo[key].name === b.groupName);
+    
+    if (groupAId !== groupBId) {
+        return groupOrder.indexOf(Number(groupAId)) - groupOrder.indexOf(Number(groupBId));
+    }
+    
+    // اگر در یک دسته بودند، بر اساس ترتیب قرارگیری در آرایه اصلی تصاویر مرتب شوند
+    let groupInfoObj = groupInfo[groupAId];
+    if (groupInfoObj && groupInfoObj.images) {
+        let indexA = groupInfoObj.images.findIndex(img => img.filename === a.filename);
+        let indexB = groupInfoObj.images.findIndex(img => img.filename === b.filename);
+        return indexA - indexB;
+    }
+    return 0;
+});
+
+items.forEach(item => {
+    totalQty += item.quantity;
+    if (!groupedItems[item.groupName]) {
+        groupedItems[item.groupName] = [];
+    }
+    groupedItems[item.groupName].push(item);
+});
 
             if (summaryBox && summaryList) {
                 let summaryHtml = '';
@@ -1784,8 +1803,8 @@ const validUsers = [
     { username: "پوستر ایران", password: "09010195885" },
     { username: "پوسترایران", password: "09010195885" },
     { username: "PosterIran", password: "09010195885" },
-    { username: "Pixel", password: "09121104309" },
-    { username: "Selina", password: "09128386208" },
+    { username: "Pixel", password: "09010195885" },
+    { username: "Pixel", password: "09128386208" },
     { username: "بازتاب دانش", password: "09331587761" },
     { username: "Pixel", password: "9199894524" },
     { username: "Admin", password: "09122487316" }
